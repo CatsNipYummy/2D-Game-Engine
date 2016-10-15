@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    Base_Classes/entity.cpp
+    Base_Classes/entity.cpp \
+    Base_Classes/component.cpp \
+    Base_Classes/entitymanager.cpp
 
 macx {
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
@@ -14,4 +16,6 @@ macx {
 INCLUDEPATH += Base_Classes
 
 HEADERS += \
-    Base_Classes/entity.h
+    Base_Classes/entity.h \
+    Base_Classes/component.h \
+    Base_Classes/entitymanager.h

@@ -2,13 +2,15 @@
 #define ENTITY_H
 
 #include <string>
+#include <vector>
+#include <component.h>
 
 class Entity
 {
-    string m_sName;
+    std::string m_sName;
 public:
-    Entity(string name);
-    string getName();
+    Entity(std::string name);
+    std::string getName();
 };
 
 #endif // ENTITY_H
