@@ -39,6 +39,10 @@ int main()
                             break;
                     }
                 }
+
+                SDL_RenderPresent(m_Renderer);
+                SDL_RenderClear(m_Renderer);
+
         }
 
     SDL_RenderPresent(m_Renderer);

@@ -8,10 +8,8 @@ SOURCES += main.cpp \
     Base_Classes/component.cpp \
     Base_Classes/entitymanager.cpp
 
-macx {
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
     INCLUDEPATH += /usr/local/include
-}
 
 INCLUDEPATH += Base_Classes
 
