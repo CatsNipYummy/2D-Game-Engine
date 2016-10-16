@@ -9,7 +9,7 @@ private:
     long totalTime;
 public:
     Timer();
-    void printFPS();
+    int printFPS();
 
 };
 

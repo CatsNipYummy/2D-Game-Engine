@@ -11,8 +11,11 @@ class CoreEngine
     Sprite *m_SpriteComponent;
 
 public:
+    bool m_bQuit=false;
+    SDL_Event m_Event;
     CoreEngine();
     void createWindow(int height, int width, std::string name);
+    virtual int update(SDL_Window *win);
 };
 
 #endif // COREENGINE_H

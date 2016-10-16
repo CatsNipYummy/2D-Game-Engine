@@ -27,6 +27,13 @@ void Sprite::setPosition(SDL_Point position) {
     m_pPosition = position;
 }
 
+// Update Loop
+void Sprite::update(int deltaTime) {
+    std::cerr<<"Son";
+    if (m_tTexture)
+        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, NULL);
+}
+
 // Load File
 void Sprite::loadBMPFromString(std::string fileName) {
     SDL_Surface *bmp = SDL_LoadBMP(fileName.c_str());
@@ -42,5 +49,5 @@ void Sprite::loadBMPFromString(std::string fileName) {
         return;
     }
 
-    SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, NULL);
+    //SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, NULL);
 }

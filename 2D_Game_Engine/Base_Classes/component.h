@@ -8,6 +8,8 @@ class Component
     std::string m_sName;
     bool m_bActive;
 
+protected:
+
 public:
     Component();
     // Copy constructor
@@ -17,6 +19,7 @@ public:
     void setActive(bool active);
 
     bool operator == (Component const& component);
+    virtual void update(int deltaTime);
 };
 
 #endif // COMPONENT_H

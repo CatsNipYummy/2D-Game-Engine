@@ -12,6 +12,7 @@ class Sprite : public Component
     SDL_Point m_pPosition;
     SDL_Texture *m_tTexture;
 
+
 public:
     Sprite();
     Sprite(const Sprite &sprite2);
@@ -19,6 +20,7 @@ public:
     std::string name ();
     void setPosition (SDL_Point position);
     void loadBMPFromString (std::string fileName);
+    void update(int deltaTime);
 };
 
 #endif // SPRITE_H

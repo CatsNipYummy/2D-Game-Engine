@@ -1,4 +1,5 @@
 #include "component.h"
+#include <iostream>
 
 Component::Component() {
 
@@ -17,6 +18,10 @@ std::string Component::name() {
     if (this->m_sName.empty())
         return 0;
     return this->m_sName;
+}
+
+void Component::update(int deltaTime) {
+    std::cerr<<"Parent";
 }
 
 void Component::setActive(bool active) {
