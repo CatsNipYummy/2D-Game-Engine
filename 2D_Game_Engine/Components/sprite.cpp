@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include "renderer.h"
 #include <iostream>
 
 Sprite::Sprite()
@@ -28,18 +29,18 @@ void Sprite::setPosition(SDL_Point position) {
 
 // Load File
 void Sprite::loadBMPFromString(std::string fileName) {
-//        SDL_Surface *bmp = SDL_LoadBMP(fileName.c_str());
-//        if (bmp == nullptr){
-//            std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
-//            return;
-//        }
+        SDL_Surface *bmp = SDL_LoadBMP(fileName.c_str());
+        if (bmp == nullptr){
+            std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
+            return;
+        }
 
-//        m_tTexture = SDL_CreateTextureFromSurface(ren, bmp);
-//        SDL_FreeSurface(bmp);
-//        if (m_tTexture == nullptr){
-//            std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-//            return;
-//        }
+        m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), bmp);
+        SDL_FreeSurface(bmp);
+        if (m_tTexture == nullptr){
+            std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+            return;
+        }
 
-//        SDL_RenderCopy(ren, tex, NULL, NULL);
+        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, NULL);
 }

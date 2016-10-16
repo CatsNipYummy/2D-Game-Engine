@@ -17,5 +17,5 @@ void Timer::printFPS()
     totalTime += endTime - startTime;
     ++numFrames;
     float fps = numFrames / (totalTime / 1000.0);
-    std::cerr << fps << "\n";
+//    std::cerr << fps << "\n";
 }
