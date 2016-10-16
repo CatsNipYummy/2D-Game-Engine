@@ -22,7 +22,7 @@ std::string Entity::name() {
 // Add Component
 void Entity::addComponent(Component *component) {
     std::cerr<<"Component "<< component->name();
-    m_vComponents.push_back(*component);
+    m_vComponents.push_back(component);
 }
 
 // Remove Component
@@ -30,14 +30,14 @@ void Entity::removeComponent(Component *component) {
     Component toBeDeleted = *component;
 
     for (int i = 0; i < m_vComponents.size(); i++) {
-        if (m_vComponents[i] == toBeDeleted) {
+        if (*m_vComponents[i] == toBeDeleted) {
             m_vComponents.erase(m_vComponents.begin() + i);
         }
     }
 }
 
 // Get All Components
-std::vector<Component> Entity::getAllComponents() {
+std::vector<Component*> Entity::getAllComponents() {
     return m_vComponents;
 }
 

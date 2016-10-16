@@ -56,11 +56,11 @@ int CoreEngine::update(SDL_Window *win)
         // Input
         float deltaTime=timer.printFPS();
 
-        std::vector<Component> components = m_character->getAllComponents();
+        std::vector<Component*> components = m_character->getAllComponents();
 
         for (int i = 0; i < components.size(); i++) {
-            Component c = components[i];
-            c.update(deltaTime);
+            Component* c = components[i];
+            c->update(deltaTime);
 
 //            std::cerr<<"Name "<< component.name()<<"\n";
 //            Sprite spriteComponent = static_cast<Sprite>(component);

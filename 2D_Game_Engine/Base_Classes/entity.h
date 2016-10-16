@@ -9,7 +9,7 @@
 class Entity
 {
     std::string m_sName;
-    std::vector<Component> m_vComponents;
+    std::vector<Component*> m_vComponents;
 
 protected:
     SDL_Point m_pPosition;
@@ -23,7 +23,7 @@ public:
 
     void addComponent(Component *component);
     void removeComponent(Component *component);
-    std::vector<Component> getAllComponents();
+    std::vector<Component*> getAllComponents();
 };
 
 #endif // ENTITY_H
