@@ -47,8 +47,8 @@ double Window::update(SDL_Window *win)
     m_SpriteComponent = new Sprite();
     m_SpriteComponent->setName("Sprite_Component");
 
-    m_SpriteComponent->setPosition({10,10});
-    m_SpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+    m_SpriteComponent->setFrame({10, 10, 100, 100});
+    m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
 
     m_character->addComponent(m_SpriteComponent);
 
