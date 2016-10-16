@@ -6,10 +6,10 @@ class Timer
 {
 private:
     int numFrames;
-    long totalTime;
+    double totalTime;
 public:
     Timer();
-    int printFPS();
+    double printFPS();
 
 };
 

@@ -1,4 +1,4 @@
-#include "coreengine.h"
+#include "window.h"
 #include <SDL2/SDL.h>
 #include<iostream>
 #include<timer.h>
@@ -10,12 +10,12 @@
 static SDL_Renderer* m_Renderer;
 
 
-CoreEngine::CoreEngine()
+Window::Window()
 {
 
 }
 
-void CoreEngine::createWindow(int height, int width, std::string name)
+void Window::createWindow(int height, int width, std::string name)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0){
             std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -29,7 +29,7 @@ void CoreEngine::createWindow(int height, int width, std::string name)
 
 
 
-        CoreEngine::update(win);
+        Window::update(win);
 
 
     SDL_DestroyRenderer(m_Renderer);
@@ -37,7 +37,7 @@ void CoreEngine::createWindow(int height, int width, std::string name)
         SDL_Quit();
 }
 
-int CoreEngine::update(SDL_Window *win)
+double Window::update(SDL_Window *win)
 {
     Timer timer;
     Renderer* r=new Renderer(win);
@@ -54,18 +54,13 @@ int CoreEngine::update(SDL_Window *win)
 
     while (!m_bQuit) {
         // Input
-        float deltaTime=timer.printFPS();
+        double deltaTime=timer.printFPS();
 
         std::vector<Component*> components = m_character->getAllComponents();
 
         for (int i = 0; i < components.size(); i++) {
             Component* c = components[i];
             c->update(deltaTime);
-
-//            std::cerr<<"Name "<< component.name()<<"\n";
-//            Sprite spriteComponent = static_cast<Sprite>(component);
-//            spriteComponent.update(deltaTime);
-
         }
 
         while (SDL_PollEvent(&m_Event)) {
