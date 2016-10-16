@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "entity.h"
+#include "sprite.h"
 
 int width = 640;
 int height = 480;
@@ -7,6 +9,9 @@ bool m_bQuit = false;
 
 static SDL_Renderer *m_Renderer;
 SDL_Event m_Event;
+
+Entity *m_character;
+Sprite *m_SpriteComponent;
 
 int main()
 {
@@ -26,6 +31,15 @@ int main()
             std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
             SDL_Quit();
         }
+
+        m_character = new Entity("Character");
+        m_SpriteComponent = new Sprite();
+        m_SpriteComponent->setName("Sprite Component");
+
+        m_SpriteComponent->setPosition({10,10});
+        m_SpriteComponent->loadBMPFromString("test.bmp");
+
+        m_character->addComponent(m_SpriteComponent);
 
         while (!m_bQuit) {
                 // Input
