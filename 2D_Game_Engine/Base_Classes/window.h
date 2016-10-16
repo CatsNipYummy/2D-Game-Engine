@@ -4,6 +4,7 @@
 #include <string>
 #include<SDL2/SDL.h>
 #include<renderer.h>
+#include<input.h>
 
 class Window
 {

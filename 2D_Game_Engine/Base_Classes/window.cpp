@@ -40,6 +40,7 @@ void Window::createWindow(int height, int width, std::string name)
 double Window::update(SDL_Window *win)
 {
     Timer timer;
+    Input input;
     Renderer* r=new Renderer(win);
     m_Renderer=r->getRenderer();
 
@@ -67,6 +68,11 @@ double Window::update(SDL_Window *win)
             switch (m_Event.type) {
                 case SDL_QUIT:
                     m_bQuit = true;
+                    break;
+
+                case SDL_KEYDOWN:
+                case SDL_KEYUP:
+                    input.getKeyData(&m_Event.key);
                     break;
 
                 default:

@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     Base_Classes/timer.cpp \
     Base_Classes/renderer.cpp \
     Components/sprite.cpp \
-    Base_Classes/window.cpp
+    Base_Classes/window.cpp \
+    Base_Classes/input.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
     INCLUDEPATH += /usr/local/include
@@ -25,4 +26,5 @@ HEADERS += \
     Base_Classes/timer.h \
     Base_Classes/renderer.h \
     Components/sprite.h \
-    Base_Classes/window.h
+    Base_Classes/window.h \
+    Base_Classes/input.h
