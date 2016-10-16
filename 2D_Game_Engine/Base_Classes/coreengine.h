@@ -7,6 +7,8 @@
 
 class CoreEngine
 {
+    Entity *m_character;
+    Sprite *m_SpriteComponent;
 
 public:
     CoreEngine();

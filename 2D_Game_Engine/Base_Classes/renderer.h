@@ -13,9 +13,6 @@ private:
 public:
     Renderer(SDL_Window* win);
     static SDL_Renderer* getRenderer();
-
-    Entity *m_character;
-    Sprite *m_SpriteComponent;
 };
 
 #endif // RENDERER_H

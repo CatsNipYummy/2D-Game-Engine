@@ -30,8 +30,17 @@ void CoreEngine::createWindow(int height, int width, std::string name)
         Renderer* r=new Renderer(win);
         static SDL_Renderer* m_Renderer=r->getRenderer();
 
+        m_character = new Entity("Character");
+        m_SpriteComponent = new Sprite();
+        m_SpriteComponent->setName("Sprite Component");
+
+        m_SpriteComponent->setPosition({10,10});
+        m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Images/test.bmp");
+
+        m_character->addComponent(m_SpriteComponent);
+
         while (!m_bQuit) {
-                // Input
+            // Input
             timer.printFPS();
                 while (SDL_PollEvent(&m_Event)) {
                     switch (m_Event.type) {
