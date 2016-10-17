@@ -45,14 +45,12 @@ double Window::update(SDL_Window *win)
 
     m_character = new Entity("Character");
     m_character->transform->setPosition({100,100});
-    m_character->transform->setScale({2,2});
+    m_character->transform->setScale({1,1});
 
     m_SpriteComponent = new Sprite();
     m_SpriteComponent->setName("Sprite_Component");
-    //int a=10,b=10;
 
-    //m_SpriteComponent->setFrame({a, b, 100, 100});
-    m_SpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+    m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
 
     m_character->addComponent(m_SpriteComponent);
 
@@ -64,7 +62,7 @@ double Window::update(SDL_Window *win)
 
         for (int i = 0; i < components.size(); i++) {
             Component* c = components[i];
-            //m_SpriteComponent->setFrame({a, b, 100, 100});
+            m_character->transform->m_tPosition = {m_character->transform->m_tPosition.x, m_character->transform->m_tPosition.y};
             c->update(deltaTime, m_character->transform);
         }
 
@@ -80,23 +78,23 @@ double Window::update(SDL_Window *win)
                 }
                 case SDL_KEYDOWN:
                 {
-                    /*switch(m_Event.key.keysym.sym)
+                    switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT:
-                            a+=100;
+                            m_character->transform->m_tPosition.x += 10;
                             break;
                         case SDLK_LEFT:
-                            a-=100;
+                        m_character->transform->m_tPosition.x -= 10;
                             break;
                         case SDLK_UP:
-                            b-=100;
+                        m_character->transform->m_tPosition.y -= 10;
                         break;
                         case SDLK_DOWN:
-                            b+=100;
+                        m_character->transform->m_tPosition.y += 10;
                         break;
                     default:
                         break;
-                    }*/
+                    }
 
                     break;
                 }
