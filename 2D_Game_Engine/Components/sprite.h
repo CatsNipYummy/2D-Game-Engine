@@ -5,7 +5,7 @@
 #include <vector>
 #include "component.h"
 #include <SDL2/SDL.h>
-
+#include "transform.h"
 class Sprite : public Component
 {
     std::string m_sName;
@@ -27,7 +27,7 @@ public:
     SDL_Rect frame();
 
     void loadBMPFromString (std::string fileName);
-    void update(int deltaTime);
+    void update(int deltaTime, Transform* transform);
 };
 
 #endif // SPRITE_H

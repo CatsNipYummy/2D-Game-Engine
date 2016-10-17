@@ -40,16 +40,19 @@ void Window::createWindow(int height, int width, std::string name)
 double Window::update(SDL_Window *win)
 {
     Timer timer;
-    Input input;
     Renderer* r=new Renderer(win);
     m_Renderer=r->getRenderer();
 
     m_character = new Entity("Character");
+    m_character->transform->setPosition({100,100});
+    m_character->transform->setScale({2,2});
+
     m_SpriteComponent = new Sprite();
     m_SpriteComponent->setName("Sprite_Component");
+    //int a=10,b=10;
 
-    m_SpriteComponent->setFrame({10, 10, 100, 100});
-    m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
+    //m_SpriteComponent->setFrame({a, b, 100, 100});
+    m_SpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
     m_character->addComponent(m_SpriteComponent);
 
@@ -61,7 +64,8 @@ double Window::update(SDL_Window *win)
 
         for (int i = 0; i < components.size(); i++) {
             Component* c = components[i];
-            c->update(deltaTime);
+            //m_SpriteComponent->setFrame({a, b, 100, 100});
+            c->update(deltaTime, m_character->transform);
         }
 
         while (SDL_PollEvent(&m_Event)) {
@@ -70,11 +74,32 @@ double Window::update(SDL_Window *win)
                     m_bQuit = true;
                     break;
 
-                case SDL_KEYDOWN:
                 case SDL_KEYUP:
-                    input.getKeyData(&m_Event.key);
+                {
                     break;
+                }
+                case SDL_KEYDOWN:
+                {
+                    /*switch(m_Event.key.keysym.sym)
+                    {
+                        case SDLK_RIGHT:
+                            a+=100;
+                            break;
+                        case SDLK_LEFT:
+                            a-=100;
+                            break;
+                        case SDLK_UP:
+                            b-=100;
+                        break;
+                        case SDLK_DOWN:
+                            b+=100;
+                        break;
+                    default:
+                        break;
+                    }*/
 
+                    break;
+                }
                 default:
                     break;
             }

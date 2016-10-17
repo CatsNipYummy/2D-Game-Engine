@@ -5,6 +5,7 @@
 #include <vector>
 #include <component.h>
 #include <SDL2/SDL.h>
+#include<transform.h>
 
 class Entity
 {
@@ -14,8 +15,11 @@ class Entity
 protected:
     SDL_Point m_pPosition;
 
+
 public:
     Entity(std::string name);
+    Transform *transform;
+    SDL_Surface *m_eSurface;
     virtual std::string name();
     virtual void setName (std::string name);
 

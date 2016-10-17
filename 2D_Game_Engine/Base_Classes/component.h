@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include <string>
+#include "transform.h"
 
 class Component
 {
@@ -19,7 +20,7 @@ public:
     void setActive(bool active);
 
     bool operator == (Component const& component);
-    virtual void update(int deltaTime);
+    virtual void update(int deltaTime, Transform* transform);
 };
 
 #endif // COMPONENT_H

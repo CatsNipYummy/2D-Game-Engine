@@ -11,13 +11,14 @@ SOURCES += main.cpp \
     Base_Classes/renderer.cpp \
     Components/sprite.cpp \
     Base_Classes/window.cpp \
-    Base_Classes/input.cpp
+    Components/transform.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
     INCLUDEPATH += /usr/local/include
 
 INCLUDEPATH += Base_Classes
 INCLUDEPATH += Components
+INCLUDEPATH += Assets
 
 HEADERS += \
     Base_Classes/entity.h \
@@ -27,4 +28,4 @@ HEADERS += \
     Base_Classes/renderer.h \
     Components/sprite.h \
     Base_Classes/window.h \
-    Base_Classes/input.h
+    Components/transform.h

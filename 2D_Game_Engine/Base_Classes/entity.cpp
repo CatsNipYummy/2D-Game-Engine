@@ -5,6 +5,9 @@
 Entity::Entity(std::string name)
 {
     m_sName = name;
+    //m_eSurface=SDL_CreateRGBSurface(0,1,1,0,0,0,0,0);
+    transform=new Transform();
+
 }
 
 void Entity::setName (std::string name) {
