@@ -5,14 +5,15 @@
 #include <SDL2/SDL.h>
 #include "renderer.h"
 #include "camera.h"
+#include "player.h"
 
 class Window
 {
     int m_iScreenWidth, m_iScreenHeight;
 
-    Entity *m_eCharacter;
+    Player *m_Player;
+
     Entity *m_eBackground;
-    Sprite *m_sSpriteComponent;
     Sprite *m_sBackgroundSpriteComponent;
 
     // Game camera

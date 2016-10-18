@@ -5,7 +5,7 @@
 #include "renderer.h"
 #include "entitymanager.h"
 
-const int CHARACTER_VELOCITY = 10;
+const int PLAYER_VELOCITY = 10;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
 
@@ -58,18 +58,8 @@ double Window::update(SDL_Window *win)
 
     EntityManager::addEntity(m_eBackground);
 
-    // Character
-    m_eCharacter = new Entity("Character");
-    m_eCharacter->transform->setPosition({100,100});
-    m_eCharacter->transform->setScale({1,1});
-
-    m_sSpriteComponent = new Sprite();
-    m_sSpriteComponent->setName("Sprite_Component");
-    m_sSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
-
-    m_eCharacter->addComponent(m_sSpriteComponent);
-
-    EntityManager::addEntity(m_eCharacter);
+    // Create the player
+    m_Player = new Player();
 
     // Add game camera
     m_Camera = new Camera({0, 0, MAP_WIDTH, MAP_HEIGHT});
@@ -93,30 +83,30 @@ double Window::update(SDL_Window *win)
         }
 
         // Camera
-        Sprite *characterSprite = (Sprite*) m_eCharacter->getComponent("Sprite_Component");
-        if (characterSprite) {
-            m_Camera->setX((characterSprite->position().x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
-            m_Camera->setY((characterSprite->position().y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
+//        Sprite *characterSprite = (Sprite*) m_eCharacter->getComponent("Sprite_Component");
+//        if (characterSprite) {
+//            m_Camera->setX((characterSprite->position().x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
+//            m_Camera->setY((characterSprite->position().y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
 
-        }
-
-       //Keep the camera in bounds
-       if(m_Camera->x() < 0 )
-       {
-           m_Camera->setX(0);
-       }
-       if(m_Camera->y() < 0 )
-       {
-           m_Camera->setY(0);
-       }
-       if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
-       {
-           m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
-       }
-       if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
-       {
-           m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
-       }
+//        }
+//
+//       //Keep the camera in bounds
+//       if(m_Camera->x() < 0 )
+//       {
+//           m_Camera->setX(0);
+//       }
+//       if(m_Camera->y() < 0 )
+//       {
+//           m_Camera->setY(0);
+//       }
+//       if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
+//       {
+//           m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
+//       }
+//       if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
+//       {
+//           m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
+//       }
 
         while (SDL_PollEvent(&m_Event)) {
             switch (m_Event.type) {
@@ -129,16 +119,16 @@ double Window::update(SDL_Window *win)
                     switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT:
-                            xVel -= CHARACTER_VELOCITY;
+                            xVel -= PLAYER_VELOCITY;
                             break;
                         case SDLK_LEFT:
-                            xVel += CHARACTER_VELOCITY;
+                            xVel += PLAYER_VELOCITY;
                             break;
                         case SDLK_UP:
-                            yVel += CHARACTER_VELOCITY;
+                            yVel += PLAYER_VELOCITY;
                             break;
                         case SDLK_DOWN:
-                            yVel -= CHARACTER_VELOCITY;
+                            yVel -= PLAYER_VELOCITY;
                             break;
                         default:
                             break;
@@ -150,19 +140,19 @@ double Window::update(SDL_Window *win)
                 switch(m_Event.key.keysym.sym)
                 {
                     case SDLK_RIGHT:
-                        xVel += CHARACTER_VELOCITY;
-                        if(xVel> 2 * CHARACTER_VELOCITY)
-                            xVel=2 * CHARACTER_VELOCITY;
+                        xVel += PLAYER_VELOCITY;
+                        if(xVel> 2 * PLAYER_VELOCITY)
+                            xVel=2 * PLAYER_VELOCITY;
                         break;
 
                     case SDLK_LEFT:
-                        xVel -= CHARACTER_VELOCITY;
+                        xVel -= PLAYER_VELOCITY;
                         break;
                     case SDLK_UP:
-                        yVel -= CHARACTER_VELOCITY;
+                        yVel -= PLAYER_VELOCITY;
                         break;
                     case SDLK_DOWN:
-                        yVel += CHARACTER_VELOCITY;
+                        yVel += PLAYER_VELOCITY;
                         break;
 
                     default:
@@ -174,8 +164,10 @@ double Window::update(SDL_Window *win)
                     break;
             }
         }
-        m_eCharacter->transform->m_tPosition.x+=xVel;
-        m_eCharacter->transform->m_tPosition.y+=yVel;
+
+        // Move Player
+        m_Player->transform->m_tPosition.x += xVel;
+        m_Player->transform->m_tPosition.y += yVel;
 
        SDL_RenderPresent(m_Renderer);
        SDL_RenderClear(m_Renderer);

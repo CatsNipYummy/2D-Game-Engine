@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     Base_Classes/window.cpp \
     Components/transform.cpp \
     Base_Classes/camera.cpp \
-    Game/game.cpp
+    Game/game.cpp \
+    Game/player.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
     INCLUDEPATH += /usr/local/include
@@ -21,6 +22,7 @@ SOURCES += main.cpp \
 INCLUDEPATH += Base_Classes
 INCLUDEPATH += Components
 INCLUDEPATH += Assets
+INCLUDEPATH += Game
 
 HEADERS += \
     Base_Classes/entity.h \
@@ -32,4 +34,5 @@ HEADERS += \
     Base_Classes/window.h \
     Components/transform.h \
     Base_Classes/camera.h \
-    Game/game.h
+    Game/game.h \
+    Game/player.h
