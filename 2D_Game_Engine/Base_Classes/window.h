@@ -10,6 +10,7 @@ class Window
 {
     Entity *m_character;
     Sprite *m_SpriteComponent;
+    float xVel=0, yVel=0;
 
 public:
     bool m_bQuit=false;

@@ -44,13 +44,13 @@ double Window::update(SDL_Window *win)
     m_Renderer=r->getRenderer();
 
     m_character = new Entity("Character");
-    m_character->transform->setPosition({100,100});
+    m_character->transform->setPosition({0,0});
     m_character->transform->setScale({1,1});
 
     m_SpriteComponent = new Sprite();
     m_SpriteComponent->setName("Sprite_Component");
 
-    m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
+    m_SpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
     m_character->addComponent(m_SpriteComponent);
 
@@ -74,36 +74,61 @@ double Window::update(SDL_Window *win)
 
                 case SDL_KEYUP:
                 {
+                    switch(m_Event.key.keysym.sym)
+                    {
+                        case SDLK_RIGHT:
+                            xVel -= 10;
+                            break;
+                        case SDLK_LEFT:
+                            xVel += 10;
+                            break;
+                        case SDLK_UP:
+                            yVel += 10;
+                            break;
+                        case SDLK_DOWN:
+                            yVel -= 10;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 }
                 case SDL_KEYDOWN:
                 {
-                    switch(m_Event.key.keysym.sym)
-                    {
-                        case SDLK_RIGHT:
-                            m_character->transform->m_tPosition.x += 10;
-                            break;
-                        case SDLK_LEFT:
-                        m_character->transform->m_tPosition.x -= 10;
-                            break;
-                        case SDLK_UP:
-                        m_character->transform->m_tPosition.y -= 10;
+                switch(m_Event.key.keysym.sym)
+                {
+                    case SDLK_RIGHT:
+                        xVel += 10;
+                        if(xVel>20)
+                            xVel=20;
                         break;
-                        case SDLK_DOWN:
-                        m_character->transform->m_tPosition.y += 10;
+
+                    case SDLK_LEFT:
+                        xVel -= 10;
                         break;
+                    case SDLK_UP:
+                        yVel -= 10;
+                        break;
+                    case SDLK_DOWN:
+                        yVel += 10;
+                        break;
+
                     default:
                         break;
-                    }
-
-                    break;
                 }
+                    break;
+            }
                 default:
                     break;
             }
         }
+        m_character->transform->m_tPosition.x+=xVel;
+        m_character->transform->m_tPosition.y+=yVel;
+
            SDL_RenderPresent(m_Renderer);
            SDL_RenderClear(m_Renderer);
 
     }
 }
+
+
