@@ -1,14 +1,15 @@
 #include "window.h"
 #include <SDL2/SDL.h>
 #include <iostream>
-#include <timer.h>
+#include "timer.h"
 #include "renderer.h"
 #include "entitymanager.h"
 
 const int CHARACTER_VELOCITY = 10;
+const int MAP_WIDTH = 1300;
+const int MAP_HEIGHT = 779;
 
 static SDL_Renderer* m_Renderer;
-
 
 Window::Window()
 {
@@ -26,6 +27,9 @@ void Window::createWindow(int height, int width, std::string name)
             std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
             SDL_Quit();
         }
+
+        m_iScreenWidth = width;
+        m_iScreenHeight = height;
 
         Window::update(win);
 
@@ -48,7 +52,7 @@ double Window::update(SDL_Window *win)
 
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/bg.bmp");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
 
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -67,7 +71,11 @@ double Window::update(SDL_Window *win)
 
     EntityManager::addEntity(m_eCharacter);
 
+    // Add game camera
+    m_Camera = new Camera({0, 0, MAP_WIDTH, MAP_HEIGHT});
+
     while (!m_bQuit) {
+
         // Input
         double deltaTime=timer.printFPS();
 
@@ -83,6 +91,32 @@ double Window::update(SDL_Window *win)
                 c->update(deltaTime, eachEntity->transform);
             }
         }
+
+        // Camera
+        Sprite *characterSprite = (Sprite*) m_eCharacter->getComponent("Sprite_Component");
+        if (characterSprite) {
+            m_Camera->setX((characterSprite->position().x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
+            m_Camera->setY((characterSprite->position().y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
+
+        }
+
+       //Keep the camera in bounds
+       if(m_Camera->x() < 0 )
+       {
+           m_Camera->setX(0);
+       }
+       if(m_Camera->y() < 0 )
+       {
+           m_Camera->setY(0);
+       }
+       if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
+       {
+           m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
+       }
+       if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
+       {
+           m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
+       }
 
         while (SDL_PollEvent(&m_Event)) {
             switch (m_Event.type) {

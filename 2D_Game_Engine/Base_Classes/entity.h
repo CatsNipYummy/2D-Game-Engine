@@ -27,6 +27,7 @@ public:
 
     void addComponent(Component *component);
     void removeComponent(Component *component);
+    Component *getComponent (std::string name);
     std::vector<Component*> getAllComponents();
 };
 
