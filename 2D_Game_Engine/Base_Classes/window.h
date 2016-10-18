@@ -10,8 +10,9 @@ class Window
 {
     Entity *m_eCharacter;
     Entity *m_eBackground;
-    Sprite *m_SpriteComponent;
+    Sprite *m_sSpriteComponent;
     Sprite *m_sBackgroundSpriteComponent;
+    float xVel=0, yVel=0;
 
 public:
     bool m_bQuit=false;

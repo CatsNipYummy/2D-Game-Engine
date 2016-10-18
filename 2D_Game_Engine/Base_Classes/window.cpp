@@ -1,12 +1,11 @@
 #include "window.h"
 #include <SDL2/SDL.h>
 #include <iostream>
-#include "timer.h"
+#include <timer.h>
 #include "renderer.h"
 #include "entitymanager.h"
 
-//SDL_Event m_Event;
-//bool m_bQuit=false;
+const int CHARACTER_VELOCITY = 10;
 
 static SDL_Renderer* m_Renderer;
 
@@ -22,7 +21,7 @@ void Window::createWindow(int height, int width, std::string name)
             std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
         }
 
-        SDL_Window *win = SDL_CreateWindow("Test", 100, 100, width, height, SDL_WINDOW_SHOWN);
+        SDL_Window *win = SDL_CreateWindow(name.c_str(), 100, 100, width, height, SDL_WINDOW_SHOWN);
         if (win == nullptr){
             std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
             SDL_Quit();
@@ -60,11 +59,11 @@ double Window::update(SDL_Window *win)
     m_eCharacter->transform->setPosition({100,100});
     m_eCharacter->transform->setScale({1,1});
 
-    m_SpriteComponent = new Sprite();
-    m_SpriteComponent->setName("Sprite_Component");
-    m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
+    m_sSpriteComponent = new Sprite();
+    m_sSpriteComponent->setName("Sprite_Component");
+    m_sSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
 
-    m_eCharacter->addComponent(m_SpriteComponent);
+    m_eCharacter->addComponent(m_sSpriteComponent);
 
     EntityManager::addEntity(m_eCharacter);
 
@@ -93,37 +92,61 @@ double Window::update(SDL_Window *win)
 
                 case SDL_KEYUP:
                 {
+                    switch(m_Event.key.keysym.sym)
+                    {
+                        case SDLK_RIGHT:
+                            xVel -= CHARACTER_VELOCITY;
+                            break;
+                        case SDLK_LEFT:
+                            xVel += CHARACTER_VELOCITY;
+                            break;
+                        case SDLK_UP:
+                            yVel += CHARACTER_VELOCITY;
+                            break;
+                        case SDLK_DOWN:
+                            yVel -= CHARACTER_VELOCITY;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 }
                 case SDL_KEYDOWN:
                 {
-                    switch(m_Event.key.keysym.sym)
-                    {
-                        case SDLK_RIGHT:
-                            m_eCharacter->transform->m_tPosition.x += 10;
-                            break;
-                        case SDLK_LEFT:
-                        m_eCharacter->transform->m_tPosition.x -= 10;
-                            break;
-                        case SDLK_UP:
-                        m_eCharacter->transform->m_tPosition.y -= 10;
+                switch(m_Event.key.keysym.sym)
+                {
+                    case SDLK_RIGHT:
+                        xVel += CHARACTER_VELOCITY;
+                        if(xVel> 2 * CHARACTER_VELOCITY)
+                            xVel=2 * CHARACTER_VELOCITY;
                         break;
-                        case SDLK_DOWN:
-                        m_eCharacter->transform->m_tPosition.y += 10;
+
+                    case SDLK_LEFT:
+                        xVel -= CHARACTER_VELOCITY;
                         break;
+                    case SDLK_UP:
+                        yVel -= CHARACTER_VELOCITY;
+                        break;
+                    case SDLK_DOWN:
+                        yVel += CHARACTER_VELOCITY;
+                        break;
+
                     default:
                         break;
-                    }
-
-                    break;
                 }
+                    break;
+            }
                 default:
                     break;
             }
         }
-           SDL_RenderPresent(m_Renderer);
-           SDL_RenderClear(m_Renderer);
+        m_eCharacter->transform->m_tPosition.x+=xVel;
+        m_eCharacter->transform->m_tPosition.y+=yVel;
+
+       SDL_RenderPresent(m_Renderer);
+       SDL_RenderClear(m_Renderer);
 
     }
     return 0;
 }
+

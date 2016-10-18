@@ -59,7 +59,6 @@ void Sprite::loadBMPFromString(std::string fileName) {
         std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
         return;
     }
-
     m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
     if (m_tTexture == nullptr){
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;

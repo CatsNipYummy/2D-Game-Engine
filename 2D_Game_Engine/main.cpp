@@ -9,5 +9,5 @@ const int SCREEN_HEIGHT = 480;
 int main()
 {
     Window window;
-    window.createWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Test");
+    window.createWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "2D Game Engine");
 }
