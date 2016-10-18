@@ -3,9 +3,9 @@
 
 #include <string>
 #include <vector>
-#include <component.h>
+#include "component.h"
 #include <SDL2/SDL.h>
-#include<transform.h>
+#include "transform.h"
 
 class Entity
 {

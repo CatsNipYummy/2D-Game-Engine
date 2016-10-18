@@ -1,8 +1,9 @@
 #include "window.h"
 #include <SDL2/SDL.h>
-#include<iostream>
-#include<timer.h>
-#include<renderer.h>
+#include <iostream>
+#include "timer.h"
+#include "renderer.h"
+#include "entitymanager.h"
 
 //SDL_Event m_Event;
 //bool m_bQuit=false;
@@ -27,8 +28,6 @@ void Window::createWindow(int height, int width, std::string name)
             SDL_Quit();
         }
 
-
-
         Window::update(win);
 
 
@@ -43,27 +42,47 @@ double Window::update(SDL_Window *win)
     Renderer* r=new Renderer(win);
     m_Renderer=r->getRenderer();
 
-    m_character = new Entity("Character");
-    m_character->transform->setPosition({100,100});
-    m_character->transform->setScale({1,1});
+    // Background
+    m_eBackground = new Entity("Background");
+    m_eBackground->transform->setPosition({0,0});
+    m_eBackground->transform->setScale({1, 1});
+
+    m_sBackgroundSpriteComponent = new Sprite();
+    m_sBackgroundSpriteComponent->setName("Background_Sprite");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/bg.bmp");
+
+    m_eBackground->addComponent(m_sBackgroundSpriteComponent);
+
+    EntityManager::addEntity(m_eBackground);
+
+    // Character
+    m_eCharacter = new Entity("Character");
+    m_eCharacter->transform->setPosition({100,100});
+    m_eCharacter->transform->setScale({1,1});
 
     m_SpriteComponent = new Sprite();
     m_SpriteComponent->setName("Sprite_Component");
-
     m_SpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
 
-    m_character->addComponent(m_SpriteComponent);
+    m_eCharacter->addComponent(m_SpriteComponent);
+
+    EntityManager::addEntity(m_eCharacter);
 
     while (!m_bQuit) {
         // Input
         double deltaTime=timer.printFPS();
 
-        std::vector<Component*> components = m_character->getAllComponents();
+        std::vector<Entity> entityList = EntityManager::getAllEntities();
 
-        for (int i = 0; i < components.size(); i++) {
-            Component* c = components[i];
-            m_character->transform->m_tPosition = {m_character->transform->m_tPosition.x, m_character->transform->m_tPosition.y};
-            c->update(deltaTime, m_character->transform);
+        for (std::vector<Entity>::iterator it = entityList.begin(); it != entityList.end(); ++it) {
+            Entity *eachEntity = &*it;
+            std::vector<Component*> components = eachEntity->getAllComponents();
+
+            for (std::vector<Component*>::iterator it2 = components.begin(); it2 != components.end(); ++it2) {
+                Component *c = *it2;
+                eachEntity->transform->m_tPosition = {eachEntity->transform->m_tPosition.x, eachEntity->transform->m_tPosition.y};
+                c->update(deltaTime, eachEntity->transform);
+            }
         }
 
         while (SDL_PollEvent(&m_Event)) {
@@ -81,16 +100,16 @@ double Window::update(SDL_Window *win)
                     switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT:
-                            m_character->transform->m_tPosition.x += 10;
+                            m_eCharacter->transform->m_tPosition.x += 10;
                             break;
                         case SDLK_LEFT:
-                        m_character->transform->m_tPosition.x -= 10;
+                        m_eCharacter->transform->m_tPosition.x -= 10;
                             break;
                         case SDLK_UP:
-                        m_character->transform->m_tPosition.y -= 10;
+                        m_eCharacter->transform->m_tPosition.y -= 10;
                         break;
                         case SDLK_DOWN:
-                        m_character->transform->m_tPosition.y += 10;
+                        m_eCharacter->transform->m_tPosition.y += 10;
                         break;
                     default:
                         break;
@@ -106,4 +125,5 @@ double Window::update(SDL_Window *win)
            SDL_RenderClear(m_Renderer);
 
     }
+    return 0;
 }

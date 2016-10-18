@@ -46,7 +46,7 @@ SDL_Rect Sprite::frame() {
 // Update Loop
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
-        m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, 256, 256};
+        m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
         SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
     }
 }
@@ -61,7 +61,6 @@ void Sprite::loadBMPFromString(std::string fileName) {
     }
 
     m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
-    SDL_FreeSurface(m_sSurface);
     if (m_tTexture == nullptr){
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;

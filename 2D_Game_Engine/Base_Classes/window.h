@@ -3,13 +3,15 @@
 
 #include <string>
 #include<SDL2/SDL.h>
-#include<renderer.h>
+#include"renderer.h"
 
 
 class Window
 {
-    Entity *m_character;
+    Entity *m_eCharacter;
+    Entity *m_eBackground;
     Sprite *m_SpriteComponent;
+    Sprite *m_sBackgroundSpriteComponent;
 
 public:
     bool m_bQuit=false;
