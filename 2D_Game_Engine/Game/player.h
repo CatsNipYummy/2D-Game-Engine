@@ -9,7 +9,6 @@
 class Player : public Entity
 {
 private:
-    Entity *m_eCharacter;
     Sprite *m_sSpriteComponent;
 
 public:

@@ -47,10 +47,8 @@ SDL_Rect Sprite::frame() {
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
         m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-        std::cout<<"Frame "<< m_rFrame.x<<"\n";
-        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
-
-//        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+//        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
+        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
     }
 }
 
