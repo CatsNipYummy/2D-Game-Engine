@@ -42,17 +42,20 @@ void Window::loadLevel(std::string levelName)
     {
         for(int i=0;i<width;i++)
         {
+            m_eBackground = new Entity("Background" + i + j);
+            m_eBackground->transform->setPosition({i*100,j*100});
+            m_eBackground->transform->setScale({1, 1});
 
-            /*switch(pixelsArray[i][j])
-            {
-                case 0:
-                    break;
-                case 1:
+            m_sBackgroundSpriteComponent = new Sprite();
+            m_sBackgroundSpriteComponent->setName("Background_Sprite" + i + j);
+            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
+            m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
+            EntityManager::addEntity(m_eBackground);
 
-
-            }*/
+            std::cerr<<"Created";
+            std::cerr<<m_eBackground->transform->m_tPosition.x<<","<<m_eBackground->transform->m_tPosition.y<<std::endl;
         }
     }
 }
@@ -69,7 +72,6 @@ void Window::createWindow(int height, int width, std::string name)
             SDL_Quit();
         }
 
-        Window::loadLevel("level1.txt");
 
         Window::update(win);
 
@@ -85,10 +87,10 @@ double Window::update(SDL_Window *win)
     Renderer* r=new Renderer(win);
     m_Renderer=r->getRenderer();
 
-
+    Window::loadLevel("level1.txt");
 
     // Background
-    m_eBackground = new Entity("Background");
+    /*m_eBackground = new Entity("Background");
     m_eBackground->transform->setPosition({0,0});
     m_eBackground->transform->setScale({1, 1});
 
@@ -99,7 +101,7 @@ double Window::update(SDL_Window *win)
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
     EntityManager::addEntity(m_eBackground);
-
+*/
     // Character
     m_eCharacter = new Entity("Character");
     m_eCharacter->transform->setPosition({100,100});
