@@ -1,20 +1,28 @@
 #ifndef Window_H
 #define Window_H
 
-#include <string>
 #include<SDL2/SDL.h>
 #include"renderer.h"
+#include <string>
 #include <fstream>
 #include <iomanip>
-
+#include "player.h"
+#include "camera.h"
 
 class Window
 {
     const int height=2, width=4;
+    int m_iScreenWidth, m_iScreenHeight;
+
+    Player *m_Player;
+
     Entity *m_eCharacter;
     Entity *m_eBackground;
-    Sprite *m_sSpriteComponent;
     Sprite *m_sBackgroundSpriteComponent;
+
+    // Game camera
+    Camera *m_Camera;
+
     float xVel=0, yVel=0;
 
 public:

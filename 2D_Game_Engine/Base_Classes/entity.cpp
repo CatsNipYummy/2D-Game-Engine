@@ -5,8 +5,7 @@
 Entity::Entity(std::string name)
 {
     m_sName = name;
-    //m_eSurface=SDL_CreateRGBSurface(0,1,1,0,0,0,0,0);
-    transform=new Transform();
+    transform = new Transform();
 
 }
 
@@ -32,7 +31,7 @@ void Entity::addComponent(Component *component) {
 void Entity::removeComponent(Component *component) {
     Component toBeDeleted = *component;
 
-    for (int i = 0; i < m_vComponents.size(); i++) {
+    for (uint8_t i = 0; i < m_vComponents.size(); i++) {
         if (*m_vComponents[i] == toBeDeleted) {
             m_vComponents.erase(m_vComponents.begin() + i);
         }
@@ -44,8 +43,13 @@ std::vector<Component*> Entity::getAllComponents() {
     return m_vComponents;
 }
 
-// Set Position
-void Entity::setPosition(SDL_Point position) {
-    m_pPosition = position;
+// Get Component
+Component *Entity::getComponent (std::string name) {
+    for (uint8_t i = 0; i < m_vComponents.size(); i++) {
+        Component *eachComponent = m_vComponents[i];
+        if (strcmp(eachComponent->name().c_str(), name.c_str()) == 0) {
+            return eachComponent;
+        }
+    }
+    return nullptr;
 }
-
