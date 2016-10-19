@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "entitymanager.h"
 
+
 const int CHARACTER_VELOCITY = 10;
 
 static SDL_Renderer* m_Renderer;
@@ -13,6 +14,47 @@ static SDL_Renderer* m_Renderer;
 Window::Window()
 {
 
+}
+
+void Window::loadLevel(std::string levelName)
+{
+    std::vector<int> levelPixels;
+
+    char ch;
+    std::ifstream levelFile;
+    levelFile.open("/home/milind/Pictures/"+ levelName);
+    while(levelFile >> std::skipws >> ch)
+    {
+        levelPixels.push_back((int)ch-48);
+
+    }
+    int k=0;
+    for(int j=0;j<height;j++)
+    {
+        for(int i=0;i<width;i++)
+        {
+            pixelsArray[i][j]=levelPixels[k];
+            k++;
+            std::cerr<<pixelsArray[i][j]<<std::endl;
+        }
+    }
+    for(int j=0;j<height;j++)
+    {
+        for(int i=0;i<width;i++)
+        {
+
+            /*switch(pixelsArray[i][j])
+            {
+                case 0:
+                    break;
+                case 1:
+
+
+
+
+            }*/
+        }
+    }
 }
 
 void Window::createWindow(int height, int width, std::string name)
@@ -26,6 +68,8 @@ void Window::createWindow(int height, int width, std::string name)
             std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
             SDL_Quit();
         }
+
+        Window::loadLevel("level1.txt");
 
         Window::update(win);
 
@@ -41,6 +85,8 @@ double Window::update(SDL_Window *win)
     Renderer* r=new Renderer(win);
     m_Renderer=r->getRenderer();
 
+
+
     // Background
     m_eBackground = new Entity("Background");
     m_eBackground->transform->setPosition({0,0});
@@ -48,7 +94,7 @@ double Window::update(SDL_Window *win)
 
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/bg.bmp");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -61,7 +107,7 @@ double Window::update(SDL_Window *win)
 
     m_sSpriteComponent = new Sprite();
     m_sSpriteComponent->setName("Sprite_Component");
-    m_sSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
+    m_sSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
     m_eCharacter->addComponent(m_sSpriteComponent);
 
@@ -95,16 +141,20 @@ double Window::update(SDL_Window *win)
                     switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT:
-                            xVel -= CHARACTER_VELOCITY;
+                            //xVel -= CHARACTER_VELOCITY;
+                            xVel=0;
                             break;
                         case SDLK_LEFT:
-                            xVel += CHARACTER_VELOCITY;
+                            //xVel += CHARACTER_VELOCITY;
+                            xVel=0;
                             break;
                         case SDLK_UP:
-                            yVel += CHARACTER_VELOCITY;
+                            //yVel += CHARACTER_VELOCITY;
+                            yVel=0;
                             break;
                         case SDLK_DOWN:
-                            yVel -= CHARACTER_VELOCITY;
+                            //yVel -= CHARACTER_VELOCITY;
+                            yVel=0;
                             break;
                         default:
                             break;
@@ -117,18 +167,24 @@ double Window::update(SDL_Window *win)
                 {
                     case SDLK_RIGHT:
                         xVel += CHARACTER_VELOCITY;
-                        if(xVel> 2 * CHARACTER_VELOCITY)
-                            xVel=2 * CHARACTER_VELOCITY;
+                        if(xVel>2*CHARACTER_VELOCITY)
+                            xVel=2*CHARACTER_VELOCITY;
                         break;
 
                     case SDLK_LEFT:
                         xVel -= CHARACTER_VELOCITY;
+                        if(xVel<-2*CHARACTER_VELOCITY)
+                            xVel=-2*CHARACTER_VELOCITY;
                         break;
                     case SDLK_UP:
                         yVel -= CHARACTER_VELOCITY;
+                        if(yVel<-2*CHARACTER_VELOCITY)
+                            yVel=-2*CHARACTER_VELOCITY;
                         break;
                     case SDLK_DOWN:
                         yVel += CHARACTER_VELOCITY;
+                        if(yVel>2*CHARACTER_VELOCITY)
+                            yVel=2*CHARACTER_VELOCITY;
                         break;
 
                     default:
