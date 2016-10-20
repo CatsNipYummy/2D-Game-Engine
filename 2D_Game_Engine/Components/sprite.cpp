@@ -47,15 +47,21 @@ SDL_Rect Sprite::frame() {
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
         m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-//        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
         //std::cerr<<"Rect "<<subRect.x << subRect.y << subRect.w<< subRect.h<<"\n";
-        if(&subRect ==nullptr)
+        if(&subRect == nullptr)
             SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
         else
         {
             m_rFrame=frame();
             SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
-            std::cerr<<"Creating tiles";
+//            std::cerr<<"Creating tiles";
+        }
+        const char *temp = "Sprite_Component";
+        if (strcmp(this->name().c_str(), temp) == 0) {
+//            std::cout<<"Texture Frame "<<this->name()<<" "<<m_rFrame.x<<" "
+//            <<m_rFrame.y<<" "
+//            <<m_rFrame.w<<" "
+//            <<m_rFrame.h<<"\n";
         }
     }
 }

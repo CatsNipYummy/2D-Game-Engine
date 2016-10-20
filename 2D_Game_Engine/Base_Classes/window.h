@@ -13,7 +13,7 @@ class Window
 {
     const int height=2, width=4;
     int m_iScreenWidth, m_iScreenHeight;
-
+    
     Player *m_Player;
 
     Entity *m_eCharacter;
@@ -31,6 +31,7 @@ public:
     SDL_Event m_Event;
     Window();
     void createWindow(int height, int width, std::string name);
+    void start(SDL_Window *win);
     virtual double update(SDL_Window *win);
     void loadLevel(std::string levelName);
 };

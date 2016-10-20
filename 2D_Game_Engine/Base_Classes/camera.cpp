@@ -1,6 +1,6 @@
 #include "camera.h"
 
-Camera::Camera(SDL_Rect rect)
+Camera::Camera(SDL_Rect rect) : Entity ("Camera")
 {
     m_rRect = rect;
 }
