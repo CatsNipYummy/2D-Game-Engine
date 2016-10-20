@@ -47,15 +47,7 @@ SDL_Rect Sprite::frame() {
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
         m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-        //std::cerr<<"Rect "<<subRect.x << subRect.y << subRect.w<< subRect.h<<"\n";
-        if(&subRect == nullptr)
-            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
-        else
-        {
-            m_rFrame=frame();
-            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
-//            std::cerr<<"Creating tiles";
-        }
+//        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
         const char *temp = "Sprite_Component";
         if (strcmp(this->name().c_str(), temp) == 0) {
 //            std::cout<<"Texture Frame "<<this->name()<<" "<<m_rFrame.x<<" "
@@ -63,17 +55,9 @@ void Sprite::update(int deltaTime, Transform* transform) {
 //            <<m_rFrame.w<<" "
 //            <<m_rFrame.h<<"\n";
         }
+
+        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
     }
-}
-
-void Sprite::setSubRect(SDL_Rect sRect)
-{
-    subRect=sRect;
-}
-
-SDL_Rect Sprite::getSubRect()
-{
-    return subRect;
 }
 
 // Load File
@@ -89,6 +73,4 @@ void Sprite::loadBMPFromString(std::string fileName) {
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;
     }
-
 }
-
