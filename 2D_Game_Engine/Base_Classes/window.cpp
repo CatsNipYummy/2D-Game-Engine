@@ -24,8 +24,8 @@ void Window::loadLevel(std::string levelName)
 
     char ch;
     std::ifstream levelFile;
-    levelFile.open("/home/milind/Pictures/"+ levelName);
-    //levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+//    levelFile.open("/home/milind/Pictures/"+ levelName);
+    levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     while(levelFile >> std::skipws >> ch)
     {
         levelPixels.push_back((int)ch-48);
@@ -64,7 +64,7 @@ void Window::loadLevel(std::string levelName)
 
             }*/
 
-            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
 
             m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -118,7 +118,7 @@ void Window::start(SDL_Window *win) {
 
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
     EntityManager::addEntity(m_eBackground);
@@ -153,29 +153,29 @@ double Window::update(SDL_Window *win)
         }
 
         // Camera
-        Sprite *characterSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
-        if (characterSprite) {
-            m_Camera->setX((m_Player->transform->m_tPosition.x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
-            m_Camera->setY((m_Player->transform->m_tPosition.y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
-        }
+//        Sprite *characterSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
+//        if (characterSprite) {
+//            m_Camera->setX((m_Player->transform->m_tPosition.x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
+//            m_Camera->setY((m_Player->transform->m_tPosition.y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
+//        }
 
-        //Keep the camera in bounds
-        if(m_Camera->x() < 0 )
-        {
-            m_Camera->setX(0);
-        }
-        if(m_Camera->y() < 0 )
-        {
-            m_Camera->setY(0);
-        }
-        if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
-        {
-            m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
-        }
-        if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
-        {
-            m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
-        }
+//        //Keep the camera in bounds
+//        if(m_Camera->x() < 0 )
+//        {
+//            m_Camera->setX(0);
+//        }
+//        if(m_Camera->y() < 0 )
+//        {
+//            m_Camera->setY(0);
+//        }
+//        if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
+//        {
+//            m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
+//        }
+//        if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
+//        {
+//            m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
+//        }
 
         m_sBackgroundSpriteComponent->setFrame(m_Camera->rect());
         SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
