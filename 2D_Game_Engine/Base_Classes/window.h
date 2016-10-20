@@ -10,7 +10,7 @@
 class Window
 {
     int m_iScreenWidth, m_iScreenHeight;
-
+    
     Player *m_Player;
 
     Entity *m_eBackground;
@@ -26,6 +26,7 @@ public:
     SDL_Event m_Event;
     Window();
     void createWindow(int height, int width, std::string name);
+    void start(SDL_Window *win);
     virtual double update(SDL_Window *win);
 };
 

@@ -21,7 +21,7 @@ std::string Component::name() {
 }
 
 void Component::update(int deltaTime, Transform* transform) {
-    std::cerr<<"Parent";
+
 }
 
 void Component::setActive(bool active) {

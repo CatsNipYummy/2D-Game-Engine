@@ -3,8 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "entity.h"
 
-class Camera
+class Camera : Entity
 {
 private:
     SDL_Rect m_rRect;
