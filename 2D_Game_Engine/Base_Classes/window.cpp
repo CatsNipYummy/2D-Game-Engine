@@ -24,8 +24,8 @@ void Window::loadLevel(std::string levelName)
 
     char ch;
     std::ifstream levelFile;
-//    levelFile.open("/home/milind/Pictures/"+ levelName);
-    levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+    levelFile.open("/home/milind/Pictures/"+ levelName);
+    //levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     while(levelFile >> std::skipws >> ch)
     {
         levelPixels.push_back((int)ch-48);
@@ -42,6 +42,7 @@ void Window::loadLevel(std::string levelName)
             std::cerr<<pixelsArray[i][j]<<std::endl;
         }
     }
+    std::string fileName;
     for(int j = 0;j < height;j++)
     {
         for(int i=0;i < width;i++)
@@ -52,7 +53,18 @@ void Window::loadLevel(std::string levelName)
 
             m_sBackgroundSpriteComponent = new Sprite();
             m_sBackgroundSpriteComponent->setName("Background_Sprite" + i + j);
-            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
+            /*switch(pixelsArray[i][j])
+            {
+                case 0:
+                    fileName="/home/milind/Pictures/0.bmp";
+                break;
+                case 1:
+                    fileName="/home/milind/Pictures/1.bmp";
+                break;
+
+            }*/
+
+            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
             m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -106,7 +118,7 @@ void Window::start(SDL_Window *win) {
 
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
     EntityManager::addEntity(m_eBackground);
