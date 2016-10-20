@@ -41,24 +41,26 @@ void Window::loadLevel(std::string levelName)
             std::cerr<<pixelsArray[i][j]<<std::endl;
         }
     }
+    m_eBackground = new Entity("Background");
+    m_eBackground->transform->setPosition({0,0});
+    m_eBackground->transform->setScale({1, 1});
+
+    m_sBackgroundSpriteComponent = new Sprite();
+    m_sBackgroundSpriteComponent->setName("Background_Sprite");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+
+    m_eBackground->addComponent(m_sBackgroundSpriteComponent);
+
+    EntityManager::addEntity(m_eBackground);
+
     for(int j = 0;j < height;j++)
     {
         for(int i=0;i < width;i++)
         {
-            m_eBackground = new Entity("Background" + i + j);
-            m_eBackground->transform->setPosition({i * TILE_WIDTH, j * TILE_HEIGHT});
-            m_eBackground->transform->setScale({1, 1});
+            m_sBackgroundSpriteComponent->setFrame({0, 0,TILE_WIDTH,TILE_HEIGHT});
+            m_sBackgroundSpriteComponent->setSubRect({i*width, j*height,TILE_WIDTH,TILE_HEIGHT});
+            //SDL_RenderCopyEx( Renderer::getRenderer(), m_sBackgroundSpriteComponent->m_tTexture, NULL, &(m_sBackgroundSpriteComponent->m_rFrame), 0.0, NULL, SDL_FLIP_NONE );
 
-            m_sBackgroundSpriteComponent = new Sprite();
-            m_sBackgroundSpriteComponent->setName("Background_Sprite" + i + j);
-            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
-
-            m_eBackground->addComponent(m_sBackgroundSpriteComponent);
-
-            EntityManager::addEntity(m_eBackground);
-
-            std::cerr<<"Created";
-            std::cerr<<m_eBackground->transform->m_tPosition.x<<","<<m_eBackground->transform->m_tPosition.y<<std::endl;
         }
     }
 }
