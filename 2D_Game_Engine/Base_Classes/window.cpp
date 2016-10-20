@@ -8,6 +8,8 @@
 const int PLAYER_VELOCITY = 10;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
+const int TILE_WIDTH = 256;
+const int TILE_HEIGHT = 256;
 
 static SDL_Renderer *m_Renderer;
 
@@ -15,6 +17,53 @@ Window::Window()
 {
     
 }
+
+void Window::loadLevel(std::string levelName)
+{
+    std::vector<int> levelPixels;
+
+    char ch;
+    std::ifstream levelFile;
+//    levelFile.open("/home/milind/Pictures/"+ levelName);
+    levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+    while(levelFile >> std::skipws >> ch)
+    {
+        levelPixels.push_back((int)ch-48);
+
+    }
+
+    int k=0;
+    for(int j = 0;j < height;j++)
+    {
+        for(int i = 0;i < width;i++)
+        {
+            pixelsArray[i][j]=levelPixels[k];
+            k++;
+            std::cerr<<pixelsArray[i][j]<<std::endl;
+        }
+    }
+    for(int j = 0;j < height;j++)
+    {
+        for(int i=0;i < width;i++)
+        {
+            m_eBackground = new Entity("Background" + i + j);
+            m_eBackground->transform->setPosition({i * TILE_WIDTH, j * TILE_HEIGHT});
+            m_eBackground->transform->setScale({1, 1});
+
+            m_sBackgroundSpriteComponent = new Sprite();
+            m_sBackgroundSpriteComponent->setName("Background_Sprite" + i + j);
+            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
+
+            m_eBackground->addComponent(m_sBackgroundSpriteComponent);
+
+            EntityManager::addEntity(m_eBackground);
+
+            std::cerr<<"Created";
+            std::cerr<<m_eBackground->transform->m_tPosition.x<<","<<m_eBackground->transform->m_tPosition.y<<std::endl;
+        }
+    }
+}
+
 
 void Window::createWindow(int height, int width, std::string name)
 {
@@ -47,6 +96,8 @@ void Window::createWindow(int height, int width, std::string name)
 void Window::start(SDL_Window *win) {
     Renderer *r = new Renderer(win);
     m_Renderer = r->getRenderer();
+
+    Window::loadLevel("level1.txt");
     
     // Background
     m_eBackground = new Entity("Background");
@@ -56,7 +107,6 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
     m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
-    
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
     
     EntityManager::addEntity(m_eBackground);
@@ -166,13 +216,13 @@ double Window::update(SDL_Window *win)
                             yVel += PLAYER_VELOCITY;
                             if(yVel > -2 * PLAYER_VELOCITY)
                                 yVel = -2 * PLAYER_VELOCITY;
-                        break;
+                            break;
                             
                         case SDLK_DOWN:
                             yVel -= PLAYER_VELOCITY;
                             if(yVel < 2*PLAYER_VELOCITY)
                                 yVel = 2 * PLAYER_VELOCITY;
-                        break;
+                            break;
                             
                         default:
                             break;
@@ -183,20 +233,20 @@ double Window::update(SDL_Window *win)
                     break;
             }
         }
-        
+    
         // Move Player
-        SDL_Point playerTransform = {static_cast<int>(m_Player->transform->m_tPosition.x + xVel),
-            static_cast<int>(m_Player->transform->m_tPosition.y + yVel)};
+//        SDL_Point playerTransform = {static_cast<int>(m_Player->transform->m_tPosition.x + xVel),
+//            static_cast<int>(m_Player->transform->m_tPosition.y + yVel)};
+//        
+//        playerTransform.x -= m_Camera->x();
+//        playerTransform.y -= m_Camera->y();
+//        
+//        m_Player->transform->m_tPosition.x = playerTransform.x;
+//        m_Player->transform->m_tPosition.y = playerTransform.y;
         
-        playerTransform.x -= m_Camera->x();
-        playerTransform.y -= m_Camera->y();
         
-        m_Player->transform->m_tPosition.x = playerTransform.x;
-        m_Player->transform->m_tPosition.y = playerTransform.y;
-        
-        
-//        m_Player->transform->m_tPosition.x += xVel;
-//        m_Player->transform->m_tPosition.y += yVel;
+        m_Player->transform->m_tPosition.x += xVel;
+        m_Player->transform->m_tPosition.y += yVel;
         
         SDL_RenderPresent(m_Renderer);
         SDL_RenderClear(m_Renderer);

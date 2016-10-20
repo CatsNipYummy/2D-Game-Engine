@@ -50,10 +50,10 @@ void Sprite::update(int deltaTime, Transform* transform) {
 //        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
         const char *temp = "Sprite_Component";
         if (strcmp(this->name().c_str(), temp) == 0) {
-            std::cout<<"Texture Frame "<<this->name()<<" "<<m_rFrame.x<<" "
-            <<m_rFrame.y<<" "
-            <<m_rFrame.w<<" "
-            <<m_rFrame.h<<"\n";
+//            std::cout<<"Texture Frame "<<this->name()<<" "<<m_rFrame.x<<" "
+//            <<m_rFrame.y<<" "
+//            <<m_rFrame.w<<" "
+//            <<m_rFrame.h<<"\n";
         }
         
         SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );

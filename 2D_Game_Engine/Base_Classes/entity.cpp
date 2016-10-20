@@ -23,7 +23,7 @@ std::string Entity::name() {
 
 // Add Component
 void Entity::addComponent(Component *component) {
-    std::cerr<<"Component "<< component->name();
+    //std::cerr<<"Component "<< component->name();
     m_vComponents.push_back(component);
 }
 

@@ -8,7 +8,7 @@ Player::Player() : Entity("Character")
 
     m_sSpriteComponent = new Sprite();
     m_sSpriteComponent->setName("Sprite_Component");
-    m_sSpriteComponent->loadBMPFromString("/Users/anil/Downloads/Tutorials/30_scrolling/dot.bmp");
+    m_sSpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
 
     this->addComponent(m_sSpriteComponent);
 
