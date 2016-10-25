@@ -126,6 +126,23 @@ void Window::start(SDL_Window *win) {
     // Create the player
     m_Player = new Player();
 
+    // Enemy
+    m_Enemy = new Entity("Enemy");
+    m_Enemy->transform->setPosition({20,20});
+    m_Enemy->transform->setScale({1, 1});
+
+    m_enemySpriteComponent = new Sprite();
+    m_enemySpriteComponent->setName("Enemy_Sprite");
+    m_enemySpriteComponent->setFrame({20, 20, 20, 20});
+    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
+    m_Enemy->addComponent(m_enemySpriteComponent);
+
+    m_EnemyCollision = new Collision();
+    m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
+    m_Enemy->addComponent(m_EnemyCollision);
+
+    EntityManager::addEntity(m_Enemy);
+
     // Add game camera
     m_Camera = new Camera({0, 0, m_iScreenWidth, m_iScreenHeight});
 }
@@ -137,7 +154,7 @@ double Window::update(SDL_Window *win)
     while (!m_bQuit) {
 
         // Input
-        double deltaTime=timer.printFPS();
+        double deltaTime = timer.printFPS();
 
         std::vector<Entity> entityList = EntityManager::getAllEntities();
 

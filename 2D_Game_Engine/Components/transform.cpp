@@ -22,5 +22,11 @@ void Transform::setScale(SDL_Point scale)
     m_tScale=scale;
 }
 
+SDL_Rect Transform::rect() {
+    return m_rRect;
+}
 
+void Transform::setRect(SDL_Rect rect) {
+    m_rRect = rect;
+}
 

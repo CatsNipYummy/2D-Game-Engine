@@ -8,6 +8,7 @@
 #include <iomanip>
 #include "player.h"
 #include "camera.h"
+#include "collision.h"
 
 class Window
 {
@@ -19,6 +20,10 @@ class Window
     Entity *m_eCharacter;
     Entity *m_eBackground;
     Sprite *m_sBackgroundSpriteComponent;
+
+    Entity *m_Enemy;
+    Sprite *m_enemySpriteComponent;
+    Collision *m_EnemyCollision;
 
     // Game camera
     Camera *m_Camera;

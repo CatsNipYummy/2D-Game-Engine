@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     Components/transform.cpp \
     Base_Classes/camera.cpp \
     Game/game.cpp \
-    Game/player.cpp
+    Game/player.cpp \
+    Components/collision.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
     INCLUDEPATH += /usr/local/include
@@ -35,4 +36,5 @@ HEADERS += \
     Components/transform.h \
     Base_Classes/camera.h \
     Game/game.h \
-    Game/player.h
+    Game/player.h \
+    Components/collision.h
