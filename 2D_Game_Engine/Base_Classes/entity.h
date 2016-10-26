@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include "transform.h"
 
+class Component;
+
 class Entity
 {
     std::string m_sName;
@@ -14,7 +16,6 @@ class Entity
 
 protected:
     SDL_Point m_pPosition;
-
 
 public:
     Entity(std::string name);

@@ -4,8 +4,10 @@
 #include "timer.h"
 #include "renderer.h"
 #include "entitymanager.h"
+#include "collisionmanager.h"
+#include <string>
 
-const int PLAYER_VELOCITY = 10;
+const int PLAYER_VELOCITY = 2;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
 const int TILE_WIDTH = 80;
@@ -26,7 +28,7 @@ void Window::loadLevel(std::string levelName)
     char ch;
     std::ifstream levelFile;
     levelFile.open("/home/milind/Pictures/level1.txt");
-//    levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+    //levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     while(levelFile >> std::skipws >> ch)
     {
         levelPixels.push_back((int)ch-48);
@@ -74,6 +76,11 @@ void Window::loadLevel(std::string levelName)
             }
 
             m_sBackgroundSpriteComponent->loadSprite(fileName);
+
+
+           // m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
+//            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+
             m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
             EntityManager::addEntity(m_eBackground);
@@ -136,8 +143,9 @@ void Window::start(SDL_Window *win) {
     m_eBackground->transform->setScale({1, 1});
 
     m_sBackgroundSpriteComponent = new Sprite();
+    m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-//    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
+    //m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
     m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -147,6 +155,14 @@ void Window::start(SDL_Window *win) {
 
     // Create the player
     m_Player = new Player();
+    m_PlayerCollision = new Collision();
+    m_PlayerCollision->setName("Player_Collision");
+    m_PlayerCollision->setEntity(m_Player);
+//    m_PlayerCollision->setRect({50,50, 100,100});
+    m_PlayerCollision->setRect(m_Player->transform->rect());
+    m_Player->addComponent(m_PlayerCollision);
+    EntityManager::addEntity(m_Player);
+    CollisionManager::addCollision(m_PlayerCollision);
 
     // Enemy
     m_Enemy = new Entity("Enemy");
@@ -156,15 +172,17 @@ void Window::start(SDL_Window *win) {
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
     m_enemySpriteComponent->setFrame({20, 20, 20, 20});
-//    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
-    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
+    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
+//    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
 
     m_EnemyCollision = new Collision();
+    m_EnemyCollision->setName("Enemy_Collision");
     m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
     m_Enemy->addComponent(m_EnemyCollision);
 
     EntityManager::addEntity(m_Enemy);
+    CollisionManager::addCollision(m_EnemyCollision);
 
     // Add game camera
     m_Camera = new Camera({0, 0, m_iScreenWidth, m_iScreenHeight});
@@ -187,8 +205,12 @@ double Window::update(SDL_Window *win)
 
             for (std::vector<Component*>::iterator it2 = components.begin(); it2 != components.end(); ++it2) {
                 Component *c = *it2;
-                eachEntity->transform->m_tPosition = {eachEntity->transform->m_tPosition.x, eachEntity->transform->m_tPosition.y};
+                //eachEntity->transform->m_tPosition = {eachEntity->transform->m_tPosition.x, eachEntity->transform->m_tPosition.y};
                 c->update(deltaTime, eachEntity->transform);
+                if (c->name().find("Collision") != std::string::npos) {
+                    Collision *col = (Collision*) c;
+                    CollisionManager::checkCollision(col);
+                }
             }
         }
 
@@ -296,9 +318,11 @@ double Window::update(SDL_Window *win)
 //        m_Player->transform->m_tPosition.x = playerTransform.x;
 //        m_Player->transform->m_tPosition.y = playerTransform.y;
 
-
         m_Player->transform->m_tPosition.x += xVel;
         m_Player->transform->m_tPosition.y += yVel;
+
+        m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
+        m_PlayerCollision->setRect(m_Player->transform->rect());
 
         SDL_RenderPresent(m_Renderer);
         SDL_RenderClear(m_Renderer);

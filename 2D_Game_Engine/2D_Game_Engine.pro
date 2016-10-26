@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     Base_Classes/camera.cpp \
     Game/game.cpp \
     Game/player.cpp \
-    Components/collision.cpp
+    Components/collision.cpp \
+    Components/Component_Managers/collisionmanager.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread -lSDL2_image
     INCLUDEPATH += /usr/local/include
@@ -24,6 +25,7 @@ INCLUDEPATH += Base_Classes
 INCLUDEPATH += Components
 INCLUDEPATH += Assets
 INCLUDEPATH += Game
+INCLUDEPATH += Components/Component_Managers
 
 HEADERS += \
     Base_Classes/entity.h \
@@ -37,4 +39,5 @@ HEADERS += \
     Base_Classes/camera.h \
     Game/game.h \
     Game/player.h \
-    Components/collision.h
+    Components/collision.h \
+    Components/Component_Managers/collisionmanager.h

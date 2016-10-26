@@ -28,6 +28,14 @@ void Component::setActive(bool active) {
     m_bActive = active;
 }
 
+Entity* Component::entity() {
+    return m_Entity;
+}
+
+void Component::setEntity(Entity *entity) {
+    m_Entity = entity;
+}
+
 bool Component::operator == (Component const& component) {
     //Component *comp = component;
     if (*this == component)
