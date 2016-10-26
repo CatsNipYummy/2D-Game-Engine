@@ -19,9 +19,21 @@ void Collision::update(int deltaTime, Transform *transform) {
 }
 
 void Collision::checkCollision() {
-    std::cerr<<"Collision "<< m_rect.x << " "<< m_rect.y<<" "<< m_rect.w<<" "<<m_rect.h;
+//    std::cerr<<"Collision "<< m_rect.x << " "<< m_rect.y<<" "<< m_rect.w<<" "<<m_rect.h;
+}
+
+void Collision::setCollide(bool collide) {
+    m_bDidCollide = collide;
+}
+
+bool Collision::didCollide() {
+    return m_bDidCollide;
 }
 
 void Collision::setRect(SDL_Rect rect) {
     m_rect = rect;
+}
+
+SDL_Rect Collision::rect() {
+    return m_rect;
 }

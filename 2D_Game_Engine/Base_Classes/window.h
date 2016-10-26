@@ -16,8 +16,8 @@ class Window
     int m_iScreenWidth, m_iScreenHeight;
     
     Player *m_Player;
+    Collision *m_PlayerCollision;
 
-    Entity *m_eCharacter;
     Entity *m_eBackground;
     Sprite *m_sBackgroundSpriteComponent;
 
