@@ -8,8 +8,9 @@
 const int PLAYER_VELOCITY = 10;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
-const int TILE_WIDTH = 256;
-const int TILE_HEIGHT = 256;
+const int TILE_WIDTH = 80;
+const int TILE_HEIGHT = 80;
+const int SPRITE_SIZE=4;
 
 static SDL_Renderer *m_Renderer;
 
@@ -42,38 +43,55 @@ void Window::loadLevel(std::string levelName)
             std::cerr<<pixelsArray[i][j]<<std::endl;
         }
     }
-    std::string fileName;
+
+    int currentX=0;
+    int currentY=0;
     for(int j = 0;j < height;j++)
     {
         for(int i=0;i < width;i++)
         {
             m_eBackground = new Entity("Background" + i + j);
-            m_eBackground->transform->setPosition({i * TILE_WIDTH, j * TILE_HEIGHT});
+            m_eBackground->transform->setPosition({i*TILE_WIDTH,j*TILE_HEIGHT});
             m_eBackground->transform->setScale({1, 1});
 
             m_sBackgroundSpriteComponent = new Sprite();
-            m_sBackgroundSpriteComponent->setName("Background_Sprite" + i + j);
-            /*switch(pixelsArray[i][j])
+            m_sBackgroundSpriteComponent->setName("Background_Sprite");
+        //    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
+            std::string fileName;
+            switch(pixelsArray[i][j])
             {
                 case 0:
-                    fileName="/home/milind/Pictures/0.bmp";
+                    fileName="/home/milind/Pictures/blue.png";
+                            break;
+            case 1:
+                fileName="/home/milind/Pictures/pink.png";
+                        break;
+            case 2:
+                fileName="/home/milind/Pictures/green.png";
+                        break;
+            default:
                 break;
-                case 1:
-                    fileName="/home/milind/Pictures/1.bmp";
-                break;
+            }
 
-            }*/
-
-//            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
-            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
-
+            m_sBackgroundSpriteComponent->loadSprite(fileName);
             m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
             EntityManager::addEntity(m_eBackground);
 
-            std::cerr<<"Created";
-            std::cerr<<m_eBackground->transform->m_tPosition.x<<","<<m_eBackground->transform->m_tPosition.y<<std::endl;
+            /*m_eBackgroundTiles = new Entity("Background Tile");
+            miniSprites[i][j] = new Sprite();
+            miniSprites[i][j]->loadBMPFromString("/home/milind/Pictures/blah.bmp");
+            miniSprites[i][j]->setFrame({currentX, currentY, TILE_WIDTH,TILE_HEIGHT});
+
+            int modVal=pixelsArray[i][j] % SPRITE_SIZE;
+            int divVal=pixelsArray[i][j] / SPRITE_SIZE;
+            miniSprites[i][j]->setSubRect({divVal*TILE_WIDTH, modVal*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT});
+            currentX+=TILE_WIDTH;
+            m_eBackgroundTiles->addComponent(miniSprites[i][j]);
+            std::cerr<<"Created";*/
         }
+        currentY+=TILE_WIDTH;
+        currentX = 0;
     }
 }
 
@@ -110,7 +128,7 @@ void Window::start(SDL_Window *win) {
     Renderer *r = new Renderer(win);
     m_Renderer = r->getRenderer();
 
-    Window::loadLevel("level1.txt");
+
 
     // Background
     m_eBackground = new Entity("Background");
@@ -124,6 +142,8 @@ void Window::start(SDL_Window *win) {
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
     EntityManager::addEntity(m_eBackground);
+
+     Window::loadLevel("level1.txt");
 
     // Create the player
     m_Player = new Player();

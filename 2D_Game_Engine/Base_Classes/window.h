@@ -19,6 +19,8 @@ class Window
 
     Entity *m_eCharacter;
     Entity *m_eBackground;
+    Entity *m_eBackgroundTiles;
+
     Sprite *m_sBackgroundSpriteComponent;
 
     Entity *m_Enemy;
@@ -29,6 +31,8 @@ class Window
     Camera *m_Camera;
 
     float xVel=0, yVel=0;
+
+    Sprite *miniSprites[4][2];
 
 public:
     bool m_bQuit=false;

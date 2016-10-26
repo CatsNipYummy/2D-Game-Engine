@@ -1,10 +1,18 @@
 #include "sprite.h"
 #include "renderer.h"
 #include <iostream>
+#include <SDL2/SDL_image.h>
 
 Sprite::Sprite()
 {
+    SDL_RectEmpty(&subRect);
+    SDL_RectEmpty(&m_rFrame);
+}
 
+Sprite::~Sprite()
+{
+    SDL_DestroyTexture(m_tTexture);
+        SDL_FreeSurface(m_sSurface);
 }
 
 Sprite::Sprite(const Sprite &sprite2) {
@@ -32,6 +40,16 @@ SDL_Point Sprite::position() {
     return m_pPosition;
 }
 
+void Sprite::setSubRect(SDL_Rect sRect)
+{
+    subRect=sRect;
+}
+
+SDL_Rect Sprite::getSubRect()
+{
+return subRect;
+}
+
 // Set Frame
 void Sprite::setFrame (SDL_Rect frame) {
     m_pPosition = {frame.x, frame.y};
@@ -47,16 +65,13 @@ SDL_Rect Sprite::frame() {
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
         m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-//        SDL_RenderCopy(Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame);
-        const char *temp = "Sprite_Component";
-        if (strcmp(this->name().c_str(), temp) == 0) {
-//            std::cout<<"Texture Frame "<<this->name()<<" "<<m_rFrame.x<<" "
-//            <<m_rFrame.y<<" "
-//            <<m_rFrame.w<<" "
-//            <<m_rFrame.h<<"\n";
-        }
 
-        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+        //if(&subRect==nullptr)
+          SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+        //else
+        //{
+          //  SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+        //}
     }
 }
 
@@ -72,5 +87,18 @@ void Sprite::loadBMPFromString(std::string fileName) {
     if (m_tTexture == nullptr){
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;
+    }
+}
+
+void Sprite::loadSprite(std::string spriteName) {
+
+    m_sSurface = IMG_Load(spriteName.c_str());
+    m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
+
+    if (m_sSurface == nullptr || m_tTexture == nullptr) {
+        std::cout<<"Error loading sprite "<<SDL_GetError();
+    }
+    else {
+
     }
 }

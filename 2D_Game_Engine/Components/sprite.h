@@ -6,6 +6,8 @@
 #include "component.h"
 #include <SDL2/SDL.h>
 #include "transform.h"
+#include<SDL2/SDL_image.h>
+
 class Sprite : public Component
 {
     std::string m_sName;
@@ -17,6 +19,7 @@ class Sprite : public Component
 
 public:
     Sprite();
+    ~Sprite();
     Sprite(const Sprite &sprite2);
     void setName (std::string name);
     std::string name ();
@@ -28,6 +31,7 @@ public:
     void update(int deltaTime, Transform* transform);
     void setSubRect(SDL_Rect sRect);
     SDL_Rect getSubRect();
+    void loadSprite(std::string spriteName);
 };
 
 #endif // SPRITE_H

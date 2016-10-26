@@ -17,7 +17,7 @@ SOURCES += main.cpp \
     Game/player.cpp \
     Components/collision.cpp
 
-    LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread
+    LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread -lSDL2_image
     INCLUDEPATH += /usr/local/include
 
 INCLUDEPATH += Base_Classes
