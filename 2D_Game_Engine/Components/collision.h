@@ -10,7 +10,11 @@ class Collision : public Component
 {
 private:
     SDL_Rect m_rect;
-    bool m_bDidCollide;
+    bool m_bDidCollide = false;
+    bool m_bLeft=false;
+    bool m_bRight=false;
+    bool m_bTop=false;
+    bool m_bBottom=false;
 
 public:
     Collision();
@@ -20,6 +24,14 @@ public:
     bool didCollide ();
     void setRect (SDL_Rect rect);
     SDL_Rect rect();
+    void setLeft(bool l);
+    void setRight(bool r);
+    void setTop(bool t);
+    void setBottom(bool b);
+    bool getLeft();
+    bool getRight();
+    bool getTop();
+    bool getBottom();
 };
 
 #endif // COLLISION_H

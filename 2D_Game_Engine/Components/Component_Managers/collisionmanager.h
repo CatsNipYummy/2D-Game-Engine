@@ -11,10 +11,7 @@ class CollisionManager
 private:
     static std::vector<Collision> m_vCollisionComponents;
 //    DIRECTION m_CollisionDirection;
-    bool m_bLeft;
-    bool m_bRight;
-    bool m_bTop;
-    bool m_bBottom;
+
 
 public:
     CollisionManager();

@@ -46,8 +46,8 @@ void Window::loadLevel(std::string levelName)
         }
     }
 
-    int currentX=0;
-    int currentY=0;
+    //int currentX=0;
+    //int currentY=0;
     for(int j = 0;j < height;j++)
     {
         for(int i=0;i < width;i++)
@@ -74,7 +74,6 @@ void Window::loadLevel(std::string levelName)
             default:
                 break;
             }
-
             m_sBackgroundSpriteComponent->loadSprite(fileName);
 
 
@@ -97,8 +96,8 @@ void Window::loadLevel(std::string levelName)
             m_eBackgroundTiles->addComponent(miniSprites[i][j]);
             std::cerr<<"Created";*/
         }
-        currentY+=TILE_WIDTH;
-        currentX = 0;
+        //currentY+=TILE_WIDTH;
+        //currentX = 0;
     }
 }
 
@@ -166,14 +165,14 @@ void Window::start(SDL_Window *win) {
 
     // Enemy
     m_Enemy = new Entity("Enemy");
-    m_Enemy->transform->setPosition({20,20});
+//    m_Enemy->transform->setPosition({200,200});
     m_Enemy->transform->setScale({1, 1});
 
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
-    m_enemySpriteComponent->setFrame({20, 20, 20, 20});
-    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
-//    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
+    m_enemySpriteComponent->setFrame({200, 200, 10, 10});
+   // m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
+    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
 
     m_EnemyCollision = new Collision();
@@ -206,11 +205,13 @@ double Window::update(SDL_Window *win)
             for (std::vector<Component*>::iterator it2 = components.begin(); it2 != components.end(); ++it2) {
                 Component *c = *it2;
                 //eachEntity->transform->m_tPosition = {eachEntity->transform->m_tPosition.x, eachEntity->transform->m_tPosition.y};
-                c->update(deltaTime, eachEntity->transform);
                 if (c->name().find("Collision") != std::string::npos) {
                     Collision *col = (Collision*) c;
                     CollisionManager::checkCollision(col);
+
                 }
+                c->update(deltaTime, eachEntity->transform);
+
             }
         }
 
@@ -242,6 +243,8 @@ double Window::update(SDL_Window *win)
         m_sBackgroundSpriteComponent->setFrame(m_Camera->rect());
         SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
         m_eBackground->transform->setPosition(tempPoint);
+
+        Collision* col=(Collision*)m_Player->getComponent("Player_Collision");
 
         while (SDL_PollEvent(&m_Event)) {
             switch (m_Event.type) {
@@ -275,29 +278,60 @@ double Window::update(SDL_Window *win)
                     switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT:
-                            xVel += PLAYER_VELOCITY;
-                            if(xVel > 2 * PLAYER_VELOCITY)
+                    {
+                        if(col->getRight()) {
+
+                            xVel*=-1;
+
+                        }
+                        else
+                            xVel+=PLAYER_VELOCITY;
+
+                        if(xVel > 2 * PLAYER_VELOCITY)
                                 xVel = 2 * PLAYER_VELOCITY;
-                            break;
 
+                            break;
+}
                         case SDLK_LEFT:
-                            xVel -= PLAYER_VELOCITY;
+                        {
+                            if(col->getLeft()) {
+                                xVel*=-1;
+
+                            }
+                            else
+                                xVel -= PLAYER_VELOCITY;
                             if(xVel < -2*PLAYER_VELOCITY)
+                            {
                                 xVel = -2 * PLAYER_VELOCITY;
-                            break;
+                            }
 
+
+                            break;
+}
                         case SDLK_UP:
-                            yVel += PLAYER_VELOCITY;
-                            if(yVel > -2 * PLAYER_VELOCITY)
-                                yVel = -2 * PLAYER_VELOCITY;
-                            break;
+                    {
+                            if(col->getTop())
+                                yVel=0;
+                            else
+                                yVel += PLAYER_VELOCITY;
+                            if(yVel > -2 * PLAYER_VELOCITY){
+                                yVel = -2 * PLAYER_VELOCITY;}
 
+                            break;
+    }
                         case SDLK_DOWN:
-                            yVel -= PLAYER_VELOCITY;
+                    {
+                            if(col->getBottom())
+                                yVel=0;
+                            else
+                                yVel -= PLAYER_VELOCITY;
                             if(yVel < 2*PLAYER_VELOCITY)
+                            {
                                 yVel = 2 * PLAYER_VELOCITY;
-                            break;
+                            }
 
+                            break;
+                }
                         default:
                             break;
                     }
@@ -317,11 +351,12 @@ double Window::update(SDL_Window *win)
 //
 //        m_Player->transform->m_tPosition.x = playerTransform.x;
 //        m_Player->transform->m_tPosition.y = playerTransform.y;
+        if (xVel != 0)
+            m_Player->transform->m_tPosition.x += xVel;
+        if (yVel != 0)
+            m_Player->transform->m_tPosition.y += yVel;
 
-        m_Player->transform->m_tPosition.x += xVel;
-        m_Player->transform->m_tPosition.y += yVel;
-
-        m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
+        m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 10, 10});
         m_PlayerCollision->setRect(m_Player->transform->rect());
 
         SDL_RenderPresent(m_Renderer);

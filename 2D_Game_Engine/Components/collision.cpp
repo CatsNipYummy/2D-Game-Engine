@@ -37,3 +37,43 @@ void Collision::setRect(SDL_Rect rect) {
 SDL_Rect Collision::rect() {
     return m_rect;
 }
+
+void Collision::setLeft(bool l)
+{
+    m_bLeft=l;
+}
+
+void Collision::setRight(bool r)
+{
+    m_bRight=r;
+}
+
+void Collision::setTop(bool t)
+{
+    m_bTop=t;
+}
+
+void Collision::setBottom(bool b)
+{
+    m_bBottom=b;
+}
+
+bool Collision::getLeft()
+{
+    return m_bLeft;
+}
+
+bool Collision::getRight()
+{
+    return m_bRight;
+}
+
+bool Collision::getTop()
+{
+    return m_bTop;
+}
+
+bool Collision::getBottom()
+{
+    return m_bBottom;
+}
