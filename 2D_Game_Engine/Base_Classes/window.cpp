@@ -7,7 +7,7 @@
 #include "collisionmanager.h"
 #include <string>
 
-const int PLAYER_VELOCITY = 2;
+const int PLAYER_VELOCITY = 1;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
 const int TILE_WIDTH = 80;
@@ -27,8 +27,8 @@ void Window::loadLevel(std::string levelName)
 
     char ch;
     std::ifstream levelFile;
-    levelFile.open("/home/milind/Pictures/level1.txt");
-    //levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+//    levelFile.open("/home/milind/Pictures/level1.txt");
+    levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     while(levelFile >> std::skipws >> ch)
     {
         levelPixels.push_back((int)ch-48);
@@ -63,13 +63,13 @@ void Window::loadLevel(std::string levelName)
             switch(pixelsArray[i][j])
             {
                 case 0:
-                    fileName="/home/milind/Pictures/blue.png";
+                    fileName="/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blue.png";
                             break;
             case 1:
-                fileName="/home/milind/Pictures/pink.png";
+                fileName="/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/pink.png";
                         break;
             case 2:
-                fileName="/home/milind/Pictures/green.png";
+                fileName="/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/green.png";
                         break;
             default:
                 break;
@@ -77,7 +77,7 @@ void Window::loadLevel(std::string levelName)
             m_sBackgroundSpriteComponent->loadSprite(fileName);
 
 
-           // m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
+//            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
 //            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
 
             m_eBackground->addComponent(m_sBackgroundSpriteComponent);
@@ -144,13 +144,13 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    //m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
+    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
+//    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
     EntityManager::addEntity(m_eBackground);
 
-     Window::loadLevel("level1.txt");
+//     Window::loadLevel("level1.txt");
 
     // Create the player
     m_Player = new Player();
@@ -165,19 +165,24 @@ void Window::start(SDL_Window *win) {
 
     // Enemy
     m_Enemy = new Entity("Enemy");
-//    m_Enemy->transform->setPosition({200,200});
+    m_Enemy->transform->setPosition({200,200});
     m_Enemy->transform->setScale({1, 1});
 
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
-    m_enemySpriteComponent->setFrame({200, 200, 10, 10});
-   // m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
-    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
+    m_enemySpriteComponent->setFrame({200, 200, 20, 20});
+    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
+//    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
 
     m_EnemyCollision = new Collision();
     m_EnemyCollision->setName("Enemy_Collision");
-    m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
+//    m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
+    m_EnemyCollision->setRect({m_enemySpriteComponent->frame().x - 5,
+                              m_enemySpriteComponent->frame().y - 5,
+                              m_enemySpriteComponent->frame().w + 5,
+                              m_enemySpriteComponent->frame().h + 5});
+
     m_Enemy->addComponent(m_EnemyCollision);
 
     EntityManager::addEntity(m_Enemy);
@@ -190,6 +195,7 @@ void Window::start(SDL_Window *win) {
 double Window::update(SDL_Window *win)
 {
     Timer timer;
+    Collision* col=(Collision*)m_Player->getComponent("Player_Collision");
 
     while (!m_bQuit) {
 
@@ -211,7 +217,6 @@ double Window::update(SDL_Window *win)
 
                 }
                 c->update(deltaTime, eachEntity->transform);
-
             }
         }
 
@@ -244,9 +249,8 @@ double Window::update(SDL_Window *win)
         SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
         m_eBackground->transform->setPosition(tempPoint);
 
-        Collision* col=(Collision*)m_Player->getComponent("Player_Collision");
-
         while (SDL_PollEvent(&m_Event)) {
+
             switch (m_Event.type) {
                 case SDL_QUIT:
                     m_bQuit = true;
@@ -256,9 +260,10 @@ double Window::update(SDL_Window *win)
                 {
                     switch(m_Event.key.keysym.sym)
                     {
-                        case SDLK_RIGHT:
+                        case SDLK_RIGHT: {
                             xVel = 0;
                             break;
+                        }
                         case SDLK_LEFT:
                             xVel = 0;
                             break;
@@ -279,24 +284,33 @@ double Window::update(SDL_Window *win)
                     {
                         case SDLK_RIGHT:
                     {
-                        if(col->getRight()) {
-
-                            xVel*=-1;
-
-                        }
-                        else
-                            xVel+=PLAYER_VELOCITY;
-
                         if(xVel > 2 * PLAYER_VELOCITY)
                                 xVel = 2 * PLAYER_VELOCITY;
 
-                            break;
+
+                        if(col->getLeft()) {
+//                            xVel = -2 * PLAYER_VELOCITY;
+                            xVel = 0;
+                            //xVel*=-1;
+                            std::cerr<<"Name Pressed "<<col->rect().x + col->rect().w<<"\n";
+                            std::cerr<<"Position "<< m_Player->transform->m_tPosition.x <<"\n";
+
+                            Sprite *testSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
+                            testSprite->setFrame({col->getContactPoint().x,
+                                                  col->getContactPoint().y,
+                                                 10, 10});
+                        }
+                        else {
+                            xVel+=PLAYER_VELOCITY;
+                        }
+
+                        break;
 }
                         case SDLK_LEFT:
                         {
-                            if(col->getLeft()) {
-                                xVel*=-1;
-
+                            if(col->getRight()) {
+//                                xVel = 0;
+//                                std::cerr<<"Name Pressed "<<col->rect().x + col->rect().w<<"\n";
                             }
                             else
                                 xVel -= PLAYER_VELOCITY;
@@ -356,8 +370,9 @@ double Window::update(SDL_Window *win)
         if (yVel != 0)
             m_Player->transform->m_tPosition.y += yVel;
 
-        m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 10, 10});
-        m_PlayerCollision->setRect(m_Player->transform->rect());
+        m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
+        m_PlayerCollision->setRect({m_Player->transform->rect().x - 5, m_Player->transform->rect().y - 5,
+                                   m_Player->transform->rect().w + 5, m_Player->transform->rect().h + 5});
 
         SDL_RenderPresent(m_Renderer);
         SDL_RenderClear(m_Renderer);

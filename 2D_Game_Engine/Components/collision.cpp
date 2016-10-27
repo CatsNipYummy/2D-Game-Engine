@@ -40,22 +40,22 @@ SDL_Rect Collision::rect() {
 
 void Collision::setLeft(bool l)
 {
-    m_bLeft=l;
+    m_bLeft = l;
 }
 
 void Collision::setRight(bool r)
 {
-    m_bRight=r;
+    m_bRight = r;
 }
 
 void Collision::setTop(bool t)
 {
-    m_bTop=t;
+    m_bTop = t;
 }
 
 void Collision::setBottom(bool b)
 {
-    m_bBottom=b;
+    m_bBottom = b;
 }
 
 bool Collision::getLeft()
@@ -76,4 +76,14 @@ bool Collision::getTop()
 bool Collision::getBottom()
 {
     return m_bBottom;
+}
+
+void Collision::setContactPoint(SDL_Point cp)
+{
+    contactPoint=cp;
+}
+
+SDL_Point Collision::getContactPoint()
+{
+    return contactPoint;
 }

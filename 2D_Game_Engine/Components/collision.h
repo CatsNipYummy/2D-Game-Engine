@@ -11,10 +11,11 @@ class Collision : public Component
 private:
     SDL_Rect m_rect;
     bool m_bDidCollide = false;
-    bool m_bLeft=false;
-    bool m_bRight=false;
-    bool m_bTop=false;
-    bool m_bBottom=false;
+    bool m_bLeft = false;
+    bool m_bRight = false;
+    bool m_bTop = false;
+    bool m_bBottom = false;
+    SDL_Point contactPoint;
 
 public:
     Collision();
@@ -32,6 +33,8 @@ public:
     bool getRight();
     bool getTop();
     bool getBottom();
+    void setContactPoint(SDL_Point cp);
+    SDL_Point getContactPoint();
 };
 
 #endif // COLLISION_H
