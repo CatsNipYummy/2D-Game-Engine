@@ -64,14 +64,14 @@ SDL_Rect Sprite::frame() {
 // Update Loop
 void Sprite::update(int deltaTime, Transform* transform) {
     if (m_tTexture) {
-        m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-
-        //if(&subRect==nullptr)
-          SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
-        //else
-        //{
-          //  SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
-        //}
+        if(subRect.w == 0 || subRect.h == 0) {
+            m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
+            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+        }
+        else
+        {
+            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+        }
     }
 }
 

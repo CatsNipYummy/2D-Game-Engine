@@ -9,6 +9,7 @@
 #include "player.h"
 #include "camera.h"
 #include "collision.h"
+#include "animation.h"
 
 class Window
 {
@@ -17,6 +18,7 @@ class Window
     
     Player *m_Player;
     Collision *m_PlayerCollision;
+    Animation *m_PlayerAnimationComponent;
 
     Entity *m_eBackground;
     Entity *m_eBackgroundTiles;
