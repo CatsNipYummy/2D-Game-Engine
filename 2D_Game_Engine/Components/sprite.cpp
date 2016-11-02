@@ -76,29 +76,33 @@ void Sprite::update(int deltaTime, Transform* transform) {
 }
 
 // Load File
-void Sprite::loadBMPFromString(std::string fileName) {
+//void Sprite::loadBMPFromString(std::string fileName) {
 
-    m_sSurface = SDL_LoadBMP(fileName.c_str());
-    if (m_sSurface == nullptr){
-        std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
-        return;
-    }
-    m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
-    if (m_tTexture == nullptr){
-        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-        return;
-    }
-}
+//    m_sSurface = SDL_LoadBMP(fileName.c_str());
+//    if (m_sSurface == nullptr){
+//        std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
+//        return;
+//    }
+//    m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
+//    if (m_tTexture == nullptr){
+//        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+//        return;
+//    }
+//}
 
 void Sprite::loadSprite(std::string spriteName) {
 
     m_sSurface = IMG_Load(spriteName.c_str());
     m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
 
-    if (m_sSurface == nullptr || m_tTexture == nullptr) {
-        std::cout<<"Error loading sprite "<<SDL_GetError();
+    if (m_sSurface == nullptr){
+        std::cout << "IMG_Load Error: " << SDL_GetError()<<"\n";
+        return;
     }
-    else {
 
+    m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
+    if (m_tTexture == nullptr){
+        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+        return;
     }
 }

@@ -74,8 +74,7 @@ void Window::loadLevel(std::string levelName)
             default:
                 break;
             }
-            m_sBackgroundSpriteComponent->loadSprite(fileName);
-
+//            m_sBackgroundSpriteComponent->loadSprite(fileName);
 
 //            m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/blah.bmp");
 //            m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/blah.bmp");
@@ -108,6 +107,9 @@ void Window::createWindow(int height, int width, std::string name)
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
     }
 
+    if (IMG_Init(IMG_INIT_PNG) != 0){
+        std::cout << "IMG_INIT Error: " << SDL_GetError() << std::endl;
+    }
     m_iScreenWidth = width;
     m_iScreenHeight = height;
 
@@ -144,7 +146,7 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.bmp");
+    m_sBackgroundSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
 //    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -171,7 +173,7 @@ void Window::start(SDL_Window *win) {
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
     m_enemySpriteComponent->setFrame({200, 200, 20, 20});
-    m_enemySpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.bmp");
+    m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
 //    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
 

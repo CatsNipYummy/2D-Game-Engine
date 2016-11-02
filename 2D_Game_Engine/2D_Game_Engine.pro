@@ -43,3 +43,10 @@ HEADERS += \
     Components/collision.h \
     Components/Component_Managers/collisionmanager.h \
     Components/animation.h
+
+mac: LIBS += -F$$PWD/./ -framework SDL2_image
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
+
+mac: LIBS += -framework SDL2_image

@@ -6,7 +6,7 @@
 #include "component.h"
 #include <SDL2/SDL.h>
 #include "transform.h"
-#include<SDL2/SDL_image.h>
+#include <SDL2_image/SDL_image.h>
 
 class Sprite : public Component
 {
@@ -27,7 +27,7 @@ public:
     SDL_Point position();
     void setFrame (SDL_Rect frame);
     SDL_Rect frame();
-    void loadBMPFromString (std::string fileName);
+//    void loadBMPFromString (std::string fileName);
     void update(int deltaTime, Transform* transform);
     void setSubRect(SDL_Rect sRect);
     SDL_Rect getSubRect();
