@@ -225,31 +225,6 @@ double Window::update(SDL_Window *win)
             }
         }
 
-        // Camera
-//        Sprite *characterSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
-//        if (characterSprite) {
-//            m_Camera->setX((m_Player->transform->m_tPosition.x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
-//            m_Camera->setY((m_Player->transform->m_tPosition.y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
-//        }
-
-//        //Keep the camera in bounds
-//        if(m_Camera->x() < 0 )
-//        {
-//            m_Camera->setX(0);
-//        }
-//        if(m_Camera->y() < 0 )
-//        {
-//            m_Camera->setY(0);
-//        }
-//        if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
-//        {
-//            m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
-//        }
-//        if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
-//        {
-//            m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
-//        }
-
         m_sBackgroundSpriteComponent->setFrame(m_Camera->rect());
         SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
         m_eBackground->transform->setPosition(tempPoint);
@@ -289,7 +264,11 @@ double Window::update(SDL_Window *win)
                     {
                         case SDLK_RIGHT:
                     {
-                        xVelL=0;
+                        if(xVelR>0)
+                        {
+                            right=true;
+                            left=false;
+                        }
                         if(xVelR > 2 * PLAYER_VELOCITY)
                                 xVelR = 2 * PLAYER_VELOCITY;
 
@@ -298,7 +277,11 @@ double Window::update(SDL_Window *win)
 }
                         case SDLK_LEFT:
                         {
-                            xVelR=0;
+                            if(xVelL<0)
+                            {
+                                left=true;
+                                right=false;
+                            }
                             if(xVelL < -2*PLAYER_VELOCITY)
                             {
                                 xVelL = -2 * PLAYER_VELOCITY;
@@ -310,7 +293,11 @@ double Window::update(SDL_Window *win)
 }
                         case SDLK_UP:
                     {
-                            yVelD=0;
+                            if(yVelU<0)
+                            {
+                                up=true;
+                                down=false;
+                            }
                             if(yVelU < -2 * PLAYER_VELOCITY){
                                 yVelU = -2 * PLAYER_VELOCITY;}
                             yVelU -= PLAYER_VELOCITY;
@@ -318,7 +305,11 @@ double Window::update(SDL_Window *win)
     }
                         case SDLK_DOWN:
                     {
-                            yVelU=0;
+                            if(yVelD>0)
+                            {
+                                down=true;
+                                up=false;
+                            }
                             if(yVelD > 2*PLAYER_VELOCITY)
                             {
                                 yVelD = 2 * PLAYER_VELOCITY;
@@ -336,24 +327,14 @@ double Window::update(SDL_Window *win)
                     break;
             }
         }
-
-        // Move Player
-//        SDL_Point playerTransform = {static_cast<int>(m_Player->transform->m_tPosition.x + xVel),
-//            static_cast<int>(m_Player->transform->m_tPosition.y + yVel)};
-//
-//        playerTransform.x -= m_Camera->x();
-//        playerTransform.y -= m_Camera->y();
-//
-//        m_Player->transform->m_tPosition.x = playerTransform.x;
-//        m_Player->transform->m_tPosition.y = playerTransform.y;
-        if(col->getLeft())
-            xVelL=0;
-        if(col->getRight())
+        if(col->didCollide() && right)
             xVelR=0;
-        if(col->getTop())
-            yVelU=0;
-        if(col->getBottom())
+        if(col->didCollide() && left)
+            xVelL=0;
+        if(col->didCollide() && down)
             yVelD=0;
+        if(col->didCollide() && up)
+            yVelU=0;
         m_Player->transform->m_tPosition.x += (xVelL+xVelR);
         m_Player->transform->m_tPosition.y += (yVelD+yVelU);
 

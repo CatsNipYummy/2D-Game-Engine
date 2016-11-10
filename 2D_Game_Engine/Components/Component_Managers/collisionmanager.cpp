@@ -29,11 +29,11 @@ void CollisionManager::checkCollision(Collision *collision) {
                     rect1.y < rect2.y + (rect2.h * 2) &&
                     (rect1.h * 2) + rect1.y > rect2.y) {
 
-
+/*
                     //Right collision check
-                    if( rect1.x + (2*rect1.w) >= rect2.x)
+                    if( rect1.x + (rect1.w) >= rect2.x)
                     {
-                        float t=rect1.x + (2*rect1.w)-rect2.x;
+                        float t=rect1.x + (rect1.w)-rect2.x;
                         if(rect1.y+(rect1.h)>=rect2.y)
                         {
                           float d=rect1.y+(rect1.h)-rect2.y;
@@ -95,7 +95,7 @@ void CollisionManager::checkCollision(Collision *collision) {
                                 std::cerr<<"HIt from left\n";
                             }
                         }
-                    }
+                    }*/
 
 
 
@@ -109,6 +109,7 @@ void CollisionManager::checkCollision(Collision *collision) {
                     collision->setBottom(false);
                     collision->setTop(false);
                     collision->setCollide(false);
+                    currentCollision.setCollide(false);
                 }
             }
         }

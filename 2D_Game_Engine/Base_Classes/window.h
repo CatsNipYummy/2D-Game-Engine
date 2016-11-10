@@ -33,7 +33,7 @@ class Window
     // Game camera
     Camera *m_Camera;
 
-    bool m_bRightCollided = false;
+    bool right=false,up=false,left=false,down=false;
 
     Sprite *miniSprites[4][2];
 
