@@ -39,7 +39,8 @@ class Window
 
 public:
     bool m_bQuit=false;
-    float xVel=0, yVel=0;
+    float xVelL=0,xVelR=0,yVelU=0,yVelD=0;
+    bool r=false, u=false;
     int pixelsArray[1000][1000];
     SDL_Event m_Event;
     Window();

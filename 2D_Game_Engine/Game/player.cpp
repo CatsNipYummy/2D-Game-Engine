@@ -11,7 +11,8 @@ Player::Player() : Entity("Character")
     m_sSpriteComponent->setName("Sprite_Component");
 //   m_sSpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
 //    m_sSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running_bmp.bmp");
-    m_sSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
+//    m_sSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
+    m_sSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
 
     SDL_Rect srcrect = {0, 0, 290, 395 };
     SDL_Rect dstrect = { 0, 0, 290, 395 };

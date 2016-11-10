@@ -29,25 +29,74 @@ void CollisionManager::checkCollision(Collision *collision) {
                     rect1.y < rect2.y + (rect2.h * 2) &&
                     (rect1.h * 2) + rect1.y > rect2.y) {
 
-                    // Collision detected
 
-                    if((rect1.w * 2 )+rect1.x >= rect2.x && rect1.x + (rect1.w * 2 )<rect2.x+(rect2.w * 2 )) {
-                        collision->setLeft(true);
-                        collision->setContactPoint({rect2.x - (rect1.w * 2), rect2.y});
-//                        std::cerr<<"HIt from left "<< collision->name() <<"\n";
+                    //Right collision check
+                    if( rect1.x + (2*rect1.w) >= rect2.x)
+                    {
+                        float t=rect1.x + (2*rect1.w)-rect2.x;
+                        if(rect1.y+(rect1.h)>=rect2.y)
+                        {
+                          float d=rect1.y+(rect1.h)-rect2.y;
+                          if(d>t)
+                          {
+                              collision->setTop(true);
+                              std::cerr<<"HIt from top\n";
+                          }
+                          else if(d<=t)
+                          {
+                              collision->setRight(true);
+                              std::cerr<<"HIt from right\n";
+                          }
+                        }
+                        else if(rect1.y<=rect2.y+(rect2.h))
+                        {
+                            float d=rect2.y+(rect2.h)-rect1.y;
+                            if(d>t)
+                            {
+                                collision->setBottom(true);
+                                std::cerr<<"HIt from bottom\n";
+                            }
+                            else
+                            {
+                                collision->setRight(true);
+                                std::cerr<<"HIt from right\n";
+                            }
+                        }
+                    }
+                    //Left check
+                    else if(rect1.x <= rect2.x + (2*rect2.w))
+                    {
+                        float t=-(rect2.x + (2*rect2.w)-rect1.x);
+                        if(rect1.y+(rect1.h)>=rect2.y)
+                        {
+                          float d=rect1.y+(rect1.h)-rect2.y;
+                          if(d>t)
+                          {
+                              collision->setTop(true);
+                              std::cerr<<"HIt from top\n";
+                          }
+                          else
+                          {
+                              collision->setLeft(true);
+                              std::cerr<<"HIt from left\n";
+                          }
+                        }
+                        else if(rect1.y<=rect2.y+(rect2.h))
+                        {
+                            float d=rect2.y+(rect2.h)-rect1.y;
+                            if(d>t)
+                            {
+                                collision->setBottom(true);
+                                std::cerr<<"HIt from bottom\n";
+                            }
+                            else
+                            {
+                                collision->setLeft(true);
+                                std::cerr<<"HIt from left\n";
+                            }
+                        }
                     }
 
-                    if(rect1.y+(rect1.h * 2) >=rect2.y && rect1.y+(rect1.h * 2)<rect2.y+(rect2.h * 2))
-                        collision->setTop(true);
-//                        std::cerr<<"HIt from top\n";
-
-                    if(rect1.x<=rect2.x+(rect2.w * 2) && rect1.x>rect2.x)
-                        collision->setRight(true);
-//                        std::cerr<<"HIt from right\n";
-
-                    if(rect1.y<=rect2.y+(rect2.h * 2) && rect1.y>rect2.y)
-                        collision->setBottom(true);
-//                        std::cerr<<"HIt from bottom\n";
 
 
 //                    std::cerr<<"Collided"<< (rect1.x + rect1.w);
@@ -59,9 +108,11 @@ void CollisionManager::checkCollision(Collision *collision) {
                     collision->setRight(false);
                     collision->setBottom(false);
                     collision->setTop(false);
+                    collision->setCollide(false);
                 }
             }
         }
 
     }
 }
+
