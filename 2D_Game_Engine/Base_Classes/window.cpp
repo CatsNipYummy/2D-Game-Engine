@@ -146,7 +146,9 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
+    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
+
+//    m_sBackgroundSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
 //    m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
 
@@ -172,8 +174,9 @@ void Window::start(SDL_Window *win) {
 
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
-    m_enemySpriteComponent->setFrame({200, 200, 20, 20});
-    m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+    m_enemySpriteComponent->setFrame({200, 200, 20, 20});\
+    m_enemySpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+//    m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
 //    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
 
@@ -222,31 +225,6 @@ double Window::update(SDL_Window *win)
             }
         }
 
-        // Camera
-//        Sprite *characterSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
-//        if (characterSprite) {
-//            m_Camera->setX((m_Player->transform->m_tPosition.x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
-//            m_Camera->setY((m_Player->transform->m_tPosition.y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
-//        }
-
-//        //Keep the camera in bounds
-//        if(m_Camera->x() < 0 )
-//        {
-//            m_Camera->setX(0);
-//        }
-//        if(m_Camera->y() < 0 )
-//        {
-//            m_Camera->setY(0);
-//        }
-//        if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
-//        {
-//            m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
-//        }
-//        if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
-//        {
-//            m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
-//        }
-
         m_sBackgroundSpriteComponent->setFrame(m_Camera->rect());
         SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
         m_eBackground->transform->setPosition(tempPoint);
@@ -263,17 +241,17 @@ double Window::update(SDL_Window *win)
                     switch(m_Event.key.keysym.sym)
                     {
                         case SDLK_RIGHT: {
-                            xVel = 0;
+                            xVelR = 0;
                             break;
                         }
                         case SDLK_LEFT:
-                            xVel = 0;
+                            xVelL = 0;
                             break;
                         case SDLK_UP:
-                            yVel = 0;
+                            yVelU = 0;
                             break;
                         case SDLK_DOWN:
-                            yVel = 0;
+                            yVelD = 0;
                             break;
                         default:
                             break;
@@ -286,65 +264,57 @@ double Window::update(SDL_Window *win)
                     {
                         case SDLK_RIGHT:
                     {
-                        if(xVel > 2 * PLAYER_VELOCITY)
-                                xVel = 2 * PLAYER_VELOCITY;
-
-
-                        if(col->getLeft()) {
-                            xVel = -2 * PLAYER_VELOCITY;
-                           // xVel = 0;
-                            //xVel*=-1;
-                            std::cerr<<"Name Pressed "<<col->rect().x + col->rect().w<<"\n";
-                            std::cerr<<"Position "<< m_Player->transform->m_tPosition.x <<"\n";
-
-                            Sprite *testSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
-                            testSprite->setFrame({col->getContactPoint().x,
-                                                  col->getContactPoint().y,
-                                                 10, 10});
+                        if(xVelR>0)
+                        {
+                            right=true;
+                            left=false;
                         }
-                        else {
-                            xVel+=PLAYER_VELOCITY;
-                        }
+                        if(xVelR > 2 * PLAYER_VELOCITY)
+                                xVelR = 2 * PLAYER_VELOCITY;
 
+                            xVelR+=PLAYER_VELOCITY;
                         break;
 }
                         case SDLK_LEFT:
                         {
-                            if(col->getRight()) {
-//                                xVel = 0;
-//                                std::cerr<<"Name Pressed "<<col->rect().x + col->rect().w<<"\n";
-                            }
-                            else
-                                xVel -= PLAYER_VELOCITY;
-                            if(xVel < -2*PLAYER_VELOCITY)
+                            if(xVelL<0)
                             {
-                                xVel = -2 * PLAYER_VELOCITY;
+                                left=true;
+                                right=false;
                             }
+                            if(xVelL < -2*PLAYER_VELOCITY)
+                            {
+                                xVelL = -2 * PLAYER_VELOCITY;
+                            }
+                             xVelL -= PLAYER_VELOCITY;
 
 
                             break;
 }
                         case SDLK_UP:
                     {
-                            if(col->getTop())
-                                yVel=0;
-                            else
-                                yVel += PLAYER_VELOCITY;
-                            if(yVel > -2 * PLAYER_VELOCITY){
-                                yVel = -2 * PLAYER_VELOCITY;}
-
+                            if(yVelU<0)
+                            {
+                                up=true;
+                                down=false;
+                            }
+                            if(yVelU < -2 * PLAYER_VELOCITY){
+                                yVelU = -2 * PLAYER_VELOCITY;}
+                            yVelU -= PLAYER_VELOCITY;
                             break;
     }
                         case SDLK_DOWN:
                     {
-                            if(col->getBottom())
-                                yVel=0;
-                            else
-                                yVel -= PLAYER_VELOCITY;
-                            if(yVel < 2*PLAYER_VELOCITY)
+                            if(yVelD>0)
                             {
-                                yVel = 2 * PLAYER_VELOCITY;
+                                down=true;
+                                up=false;
                             }
+                            if(yVelD > 2*PLAYER_VELOCITY)
+                            {
+                                yVelD = 2 * PLAYER_VELOCITY;
+                            }
+                             yVelD += PLAYER_VELOCITY;
 
                             break;
                 }
@@ -357,20 +327,16 @@ double Window::update(SDL_Window *win)
                     break;
             }
         }
-
-        // Move Player
-//        SDL_Point playerTransform = {static_cast<int>(m_Player->transform->m_tPosition.x + xVel),
-//            static_cast<int>(m_Player->transform->m_tPosition.y + yVel)};
-//
-//        playerTransform.x -= m_Camera->x();
-//        playerTransform.y -= m_Camera->y();
-//
-//        m_Player->transform->m_tPosition.x = playerTransform.x;
-//        m_Player->transform->m_tPosition.y = playerTransform.y;
-        if (xVel != 0)
-            m_Player->transform->m_tPosition.x += xVel;
-        if (yVel != 0)
-            m_Player->transform->m_tPosition.y += yVel;
+        if(col->didCollide() && right)
+            xVelR=0;
+        if(col->didCollide() && left)
+            xVelL=0;
+        if(col->didCollide() && down)
+            yVelD=0;
+        if(col->didCollide() && up)
+            yVelU=0;
+        m_Player->transform->m_tPosition.x += (xVelL+xVelR);
+        m_Player->transform->m_tPosition.y += (yVelD+yVelU);
 
         m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
         m_PlayerCollision->setRect({m_Player->transform->rect().x - 5, m_Player->transform->rect().y - 5,

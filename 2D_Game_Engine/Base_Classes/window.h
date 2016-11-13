@@ -33,13 +33,14 @@ class Window
     // Game camera
     Camera *m_Camera;
 
-    bool m_bRightCollided = false;
+    bool right=false,up=false,left=false,down=false;
 
     Sprite *miniSprites[4][2];
 
 public:
     bool m_bQuit=false;
-    float xVel=0, yVel=0;
+    float xVelL=0,xVelR=0,yVelU=0,yVelD=0;
+    bool r=false, u=false;
     int pixelsArray[1000][1000];
     SDL_Event m_Event;
     Window();

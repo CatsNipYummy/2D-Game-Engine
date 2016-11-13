@@ -6,6 +6,7 @@
 #include "component.h"
 #include <SDL2/SDL.h>
 #include "transform.h"
+//#include <SDL2_image/SDL_image.h>
 #include <SDL2/SDL_image.h>
 
 class Sprite : public Component
