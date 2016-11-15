@@ -17,6 +17,7 @@ class Sprite : public Component
     SDL_Rect m_rFrame;
     SDL_Rect subRect;
     SDL_Texture *m_tTexture;
+    bool m_bFlip = false;
 
 public:
     Sprite();
@@ -29,10 +30,11 @@ public:
     void setFrame (SDL_Rect frame);
     SDL_Rect frame();
 //    void loadBMPFromString (std::string fileName);
-    void update(int deltaTime, Transform* transform);
+    void update(float deltaTime, Transform* transform);
     void setSubRect(SDL_Rect sRect);
     SDL_Rect getSubRect();
     void loadSprite(std::string spriteName);
+    void setFlip(bool flip);
 };
 
 #endif // SPRITE_H

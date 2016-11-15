@@ -7,12 +7,22 @@
 
 class Animation : public Component
 {
-private:
-    Sprite *m_sSprite;
 public:
+    
+    enum AnimationState {
+        IDLE,
+        RUN,
+        JUMP
+    };
+    
     Animation();
     void setSprite (Sprite *sprite);
-    void update(int deltaTime, Transform* transform);
+    void update(float deltaTime, Transform* transform);
+    void setState(AnimationState animationState);
+    
+private:
+    AnimationState m_asCurrentState;
+    Sprite *m_sSprite;
 };
 
 #endif // ANIMATION_H

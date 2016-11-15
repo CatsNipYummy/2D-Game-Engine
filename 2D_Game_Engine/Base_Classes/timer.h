@@ -7,6 +7,9 @@ class Timer
 private:
     int numFrames;
     double totalTime;
+    double lastFrameTime, currentFrameTime;
+    double deltaTime;
+    
 public:
     Timer();
     double printFPS();

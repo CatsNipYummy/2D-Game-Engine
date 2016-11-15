@@ -1,7 +1,8 @@
 #ifndef Window_H
 #define Window_H
 
-#include<SDL2/SDL.h>
+#include <SDL2/SDL.h>
+//#include <SDL2_image/SDL_image.h>
 #include <SDL2/SDL_image.h>
 #include"renderer.h"
 #include <string>
@@ -11,6 +12,7 @@
 #include "camera.h"
 #include "collision.h"
 #include "animation.h"
+#include "world.h"
 
 class Window
 {
@@ -29,18 +31,20 @@ class Window
     Entity *m_Enemy;
     Sprite *m_enemySpriteComponent;
     Collision *m_EnemyCollision;
-
+    
     // Game camera
     Camera *m_Camera;
 
-    bool right=false,up=false,left=false,down=false;
+    bool right = false, left=false, up=false, down=false;
 
     Sprite *miniSprites[4][2];
+    
+    Entity *m_worldEntity;
+    World *m_worldComponent;
 
 public:
     bool m_bQuit=false;
-    float xVelL=0,xVelR=0,yVelU=0,yVelD=0;
-    bool r=false, u=false;
+    float xVelL=0,xVelR=0, yVelU=0,yVelD=0;
     int pixelsArray[1000][1000];
     SDL_Event m_Event;
     Window();

@@ -25,7 +25,7 @@ public:
     Entity* entity();
     void setEntity(Entity *entity);
     bool operator == (Component const& component);
-    virtual void update(int deltaTime, Transform* transform);
+    virtual void update(float deltaTime, Transform* transform);
 };
 
 #endif // COMPONENT_H

@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     Game/player.cpp \
     Components/collision.cpp \
     Components/Component_Managers/collisionmanager.cpp \
-    Components/animation.cpp
+    Components/animation.cpp \
+    Components/world.cpp \
+    Components/ai.cpp
 
     LIBS += -L/usr/local/lib -lSDL2 -ldl -lpthread -lSDL2_image
     INCLUDEPATH += /usr/local/include
@@ -42,7 +44,9 @@ HEADERS += \
     Game/player.h \
     Components/collision.h \
     Components/Component_Managers/collisionmanager.h \
-    Components/animation.h
+    Components/animation.h \
+    Components/world.h \
+    Components/ai.h
 
 mac: LIBS += -F$$PWD/./ -framework SDL2_image
 
