@@ -1,6 +1,7 @@
 #include "sprite.h"
 #include "renderer.h"
 #include <iostream>
+//#include <SDL2_image/SDL_image.h>
 #include <SDL2/SDL_image.h>
 
 Sprite::Sprite()
@@ -62,7 +63,7 @@ SDL_Rect Sprite::frame() {
 }
 
 // Update Loop
-void Sprite::update(int deltaTime, Transform* transform) {
+void Sprite::update(float deltaTime, Transform* transform) {
     if (m_tTexture) {
         if(subRect.w == 0 || subRect.h == 0) {
             m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
@@ -70,7 +71,11 @@ void Sprite::update(int deltaTime, Transform* transform) {
         }
         else
         {
-            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+            if (!m_bFlip)
+                SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+            else
+                SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_HORIZONTAL );
+
         }
     }
 }
@@ -105,4 +110,8 @@ void Sprite::loadSprite(std::string spriteName) {
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;
     }
+}
+
+void Sprite::setFlip(bool flip) {
+    m_bFlip = flip;
 }

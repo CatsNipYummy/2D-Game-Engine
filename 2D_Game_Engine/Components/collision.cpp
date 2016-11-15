@@ -8,7 +8,7 @@ Collision::Collision()
 }
 
 // Update loop
-void Collision::update(int deltaTime, Transform *transform) {
+void Collision::update(float deltaTime, Transform *transform) {
     checkCollision();
     if (DEBUG_ON) {
         SDL_RenderDrawLine(Renderer::getRenderer(), m_rect.x, m_rect.y, m_rect.x + (m_rect.w * 2), m_rect.y);

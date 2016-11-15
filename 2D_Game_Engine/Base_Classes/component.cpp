@@ -20,7 +20,7 @@ std::string Component::name() {
     return this->m_sName;
 }
 
-void Component::update(int deltaTime, Transform* transform) {
+void Component::update(float deltaTime, Transform* transform) {
 
 }
 

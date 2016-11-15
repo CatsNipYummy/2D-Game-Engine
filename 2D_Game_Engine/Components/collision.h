@@ -4,7 +4,7 @@
 #include "component.h"
 #include "entity.h"
 
-const bool DEBUG_ON = true;
+const bool DEBUG_ON = false;
 
 class Collision : public Component
 {
@@ -19,7 +19,7 @@ private:
 
 public:
     Collision();
-    void update(int deltaTime, Transform* transform);
+    void update(float deltaTime, Transform* transform);
     void checkCollision();
     void setCollide(bool collide);
     bool didCollide ();
