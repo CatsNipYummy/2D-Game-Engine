@@ -3,7 +3,7 @@
 Player::Player() : Entity("Character")
 {
     // Character
-    this->transform->setPosition({250,250});
+    this->transform->setPosition({0,0});
     this->transform->setScale({1,1});
 //    this->transform->setRect({ 10, 10, 30, 35 });
 
@@ -25,10 +25,10 @@ Player::Player() : Entity("Character")
     m_sSpriteComponent->setSubRect(srcrect);
     this->addComponent(m_sSpriteComponent);
 
-    //m_aAnimation = new Animation();
-    //m_aAnimation->setName("Animation_Component");
-    //m_aAnimation->setSprite(m_sSpriteComponent);
-    //this->addComponent(m_aAnimation);
+    m_aAnimation = new Animation();
+    m_aAnimation->setName("Animation_Component");
+    m_aAnimation->setSprite(m_sSpriteComponent);
+    this->addComponent(m_aAnimation);
 
     EntityManager::addEntity(this);
     

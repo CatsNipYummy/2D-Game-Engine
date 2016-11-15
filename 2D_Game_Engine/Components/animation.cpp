@@ -39,14 +39,17 @@ void Animation::setState(AnimationState animationState) {
     
     switch (m_asCurrentState) {
         case IDLE:
-            this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_idle2.png");
-            break;
+//            this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_idle2.png");
+        this->m_sSprite->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_idle2.png");
+        break;
         case JUMP:
-            this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_jump2.png");
+//        this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_jump2.png");
+        this->m_sSprite->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_jump2.png");
             break;
         case RUN:
-            this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running2.png");
-            break;
+//            this->m_sSprite->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running2.png");
+        this->m_sSprite->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running2.png");
+        break;
         default:
             break;
     }

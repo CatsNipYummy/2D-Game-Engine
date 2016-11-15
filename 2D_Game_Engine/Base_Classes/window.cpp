@@ -7,7 +7,7 @@
 #include "collisionmanager.h"
 #include <string>
 
-const int PLAYER_VELOCITY = 2;
+const int PLAYER_VELOCITY = 1;
 const int MAP_WIDTH = 1300;
 const int MAP_HEIGHT = 779;
 const int TILE_WIDTH = 80;
@@ -196,29 +196,31 @@ void Window::start(SDL_Window *win) {
     
     
     // Enemy
-//    m_Enemy = new Entity("Enemy");
-//    m_Enemy->transform->setPosition({200,200});
-//    m_Enemy->transform->setScale({1, 1});
-//    
-//    m_enemySpriteComponent = new Sprite();
-//    m_enemySpriteComponent->setName("Enemy_Sprite");
-//    m_enemySpriteComponent->setFrame({200, 200, 20, 20});
-//    m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
-//    //    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
-//    m_Enemy->addComponent(m_enemySpriteComponent);
-//    
-//    m_EnemyCollision = new Collision();
-//    m_EnemyCollision->setName("Enemy_Collision");
-//    //    m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
-//    m_EnemyCollision->setRect({m_enemySpriteComponent->frame().x - 5,
-//        m_enemySpriteComponent->frame().y - 5,
-//        m_enemySpriteComponent->frame().w + 5,
-//        m_enemySpriteComponent->frame().h + 5});
-//    
-//    m_Enemy->addComponent(m_EnemyCollision);
-//    
-//    EntityManager::addEntity(m_Enemy);
-//    CollisionManager::addCollision(m_EnemyCollision);
+    m_Enemy = new Entity("Enemy");
+    m_Enemy->transform->setPosition({200,200});
+    m_Enemy->transform->setScale({1, 1});
+
+    m_enemySpriteComponent = new Sprite();
+    m_enemySpriteComponent->setName("Enemy_Sprite");
+    m_enemySpriteComponent->setFrame({200, 200, 20, 20});
+    //m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+    m_enemySpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+
+    //    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
+    m_Enemy->addComponent(m_enemySpriteComponent);
+
+    m_EnemyCollision = new Collision();
+    m_EnemyCollision->setName("Enemy_Collision");
+    //    m_EnemyCollision->setRect(m_enemySpriteComponent->frame());
+    m_EnemyCollision->setRect({m_enemySpriteComponent->frame().x - 5,
+        m_enemySpriteComponent->frame().y - 5,
+        m_enemySpriteComponent->frame().w + 5,
+        m_enemySpriteComponent->frame().h + 5});
+
+    m_Enemy->addComponent(m_EnemyCollision);
+
+    EntityManager::addEntity(m_Enemy);
+    CollisionManager::addCollision(m_EnemyCollision);
     
     // Add game camera
     m_Camera = new Camera({0, 0, m_iScreenWidth, m_iScreenHeight});
@@ -296,16 +298,20 @@ double Window::update(SDL_Window *win)
                     {
                         case SDLK_RIGHT: {
                             xVelR = 0;
+                            right=false;
                             break;
                         }
                         case SDLK_LEFT:
                             xVelL = 0;
+                            left=false;
                             break;
                         case SDLK_UP:
                             yVelU = 0;
+                            up=false;
                             break;
                         case SDLK_DOWN:
                             yVelD = 0;
+                            down=false;
                             break;
                         default:
                             break;
@@ -318,19 +324,26 @@ double Window::update(SDL_Window *win)
                     {
                         case SDLK_RIGHT:
                         {
-                        right=true;
+                        if(xVelR>0)
+                        {
+                            right=true;
+                            left=false;
+                        }
                             if(xVelR > 2 * PLAYER_VELOCITY)
                                 xVelR = 2 * PLAYER_VELOCITY;
-                            
 
-                                xVelR+=PLAYER_VELOCITY;
-                            }
+                             xVelR+=PLAYER_VELOCITY;
+
                             
                             break;
                         }
                         case SDLK_LEFT:
                         {
-                            left=true;
+                                        if(xVelL<0)
+                                                    {
+                                                        left=true;
+                                                        right=false;
+                                                    }
                             if(xVelL < -2*PLAYER_VELOCITY)
                             {
                                 xVelL = -2 * PLAYER_VELOCITY;
@@ -341,7 +354,11 @@ double Window::update(SDL_Window *win)
                         }
                         case SDLK_UP:
                         {
-                            up=true;
+                        if(yVelU<0)
+                                                    {
+                                                        up=true;
+                                                        down=false;
+                                                    }
                             if(yVelU > -2 * PLAYER_VELOCITY){
                                 yVelU = -2 * PLAYER_VELOCITY;}
                            yVelU += PLAYER_VELOCITY;
@@ -349,7 +366,11 @@ double Window::update(SDL_Window *win)
                         }
                         case SDLK_DOWN:
                         {
-                        down=true;
+                        if(yVelD>0)
+                                                    {
+                                                        down=true;
+                                                        up=false;
+                                                    }
 
 
                             if(yVelD < 2*PLAYER_VELOCITY)
@@ -368,25 +389,38 @@ double Window::update(SDL_Window *win)
                 //default:
                   //  break;
             }
+        }
 
         if(col->didCollide() && right && xVelR>0)
+        {
             xVelR=0;
+            std::cerr<<"RIght\n";
+        }
         if(col->didCollide() && left && xVelL<0)
+        {
             xVelL=0;
+            std::cerr<<"Left\n";
+        }
         if(col->didCollide() && down && yVelD>0)
+        {
             yVelD=0;
+            std::cerr<<"Down\n";
+        }
         if(col->didCollide() && up && yVelU<0)
+        {
             yVelU=0;
+            std::cerr<<"Up\n";
+        }
         m_Player->transform->m_tPosition.x += (xVelL+xVelR);
         m_Player->transform->m_tPosition.y += (yVelD+yVelU);
 
        // m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
        // m_PlayerCollision->setRect({m_Player->transform->rect().x - 5, m_Player->transform->rect().y - 5,
          //                          m_Player->transform->rect().w + 5, m_Player->transform->rect().h + 5});
-        if ((xVelL+xVelR) !=0) {
+       if ((xVelL+xVelR) !=0) {
             m_Player->transform->m_tPosition.x += (xVelL+xVelR);
             Sprite *spriteTemp = (Sprite*) m_Player->getComponent("Sprite_Component");
-            if ((xVelL+xVelR) > 0) {
+            if (xVelL+xVelR>0) {
                 spriteTemp->setFlip(false);
             }
             else {
