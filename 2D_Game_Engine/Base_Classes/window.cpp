@@ -163,7 +163,8 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
+    m_sBackgroundSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
+//    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
 
         //m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
@@ -203,8 +204,8 @@ void Window::start(SDL_Window *win) {
     m_enemySpriteComponent = new Sprite();
     m_enemySpriteComponent->setName("Enemy_Sprite");
     m_enemySpriteComponent->setFrame({200, 200, 20, 20});
-    //m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
-    m_enemySpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+    m_enemySpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
+//    m_enemySpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/character.png");
 
     //    m_enemySpriteComponent->loadBMPFromString("/home/milind/Pictures/dot.bmp");
     m_Enemy->addComponent(m_enemySpriteComponent);
