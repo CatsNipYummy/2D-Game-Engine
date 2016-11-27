@@ -12,8 +12,8 @@ Player::Player() : Entity("Character")
     //m_sSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
 //    m_sSpriteComponent->loadBMPFromString("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running_bmp.bmp");
 
-//    m_sSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
-    m_sSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
+    m_sSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
+//    m_sSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_running.png");
 
    // m_sSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/char_idle2.png");
 
@@ -33,8 +33,8 @@ Player::Player() : Entity("Character")
     EntityManager::addEntity(this);
     
     // Set Velocity
-    m_fVelocityX = 2.0f;
-    m_fVelocityY = -2.0f;
+    m_fVelocityX = 3.0f;
+    m_fVelocityY = -3.0f;
 }
 
 void Player::setInput(SDL_Event &event) {
