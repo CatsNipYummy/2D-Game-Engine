@@ -30,7 +30,10 @@ public:
     void setFrame (SDL_Rect frame);
     SDL_Rect frame();
 //    void loadBMPFromString (std::string fileName);
+    //void update(float deltaTime, Transform* transform);
     void update(float deltaTime, Transform* transform);
+    void update(float deltaTime, Transform* transform, int x, int y);
+    void update(float deltaTime, Transform* transform, int x, int y, SDL_Rect* rect);
     void setSubRect(SDL_Rect sRect);
     SDL_Rect getSubRect();
     void loadSprite(std::string spriteName);

@@ -63,11 +63,13 @@ SDL_Rect Sprite::frame() {
 }
 
 // Update Loop
-void Sprite::update(float deltaTime, Transform* transform) {
+void Sprite::update(float deltaTime, Transform* transform)
+{
     if (m_tTexture) {
         if(subRect.w == 0 || subRect.h == 0) {
             m_rFrame = {transform->m_tPosition.x, transform->m_tPosition.y, m_sSurface->w, m_sSurface->h};
-            SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+                SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, NULL, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+
         }
         else
         {
@@ -80,20 +82,22 @@ void Sprite::update(float deltaTime, Transform* transform) {
     }
 }
 
-// Load File
-//void Sprite::loadBMPFromString(std::string fileName) {
+void Sprite::update(float deltaTime, Transform *transform, int x, int y)
+{
+    m_rFrame.x=x;
+    m_rFrame.y=y;
+    if (!m_bFlip)
+        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+    else
+        SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, &subRect, &m_rFrame, 0.0, NULL, SDL_FLIP_HORIZONTAL );
 
-//    m_sSurface = SDL_LoadBMP(fileName.c_str());
-//    if (m_sSurface == nullptr){
-//        std::cout << "SDL_LoadBMP Error: " << SDL_GetError()<<"\n";
-//        return;
-//    }
-//    m_tTexture = SDL_CreateTextureFromSurface(Renderer::getRenderer(), m_sSurface);
-//    if (m_tTexture == nullptr){
-//        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-//        return;
-//    }
-//}
+}
+
+void Sprite::update(float deltaTime, Transform *transform, int x,int y, SDL_Rect* rect)
+{
+    m_rFrame={x,y,rect->w,rect->h};
+    SDL_RenderCopyEx( Renderer::getRenderer(), m_tTexture, rect, &m_rFrame, 0.0, NULL, SDL_FLIP_NONE );
+}
 
 void Sprite::loadSprite(std::string spriteName) {
 

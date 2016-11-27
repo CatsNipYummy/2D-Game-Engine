@@ -8,8 +8,8 @@
 #include <string>
 
 const int PLAYER_VELOCITY = 1;
-const int MAP_WIDTH = 1300;
-const int MAP_HEIGHT = 779;
+const int MAP_WIDTH = 6781;
+const int MAP_HEIGHT = 1000;
 const int TILE_WIDTH = 80;
 const int TILE_HEIGHT = 80;
 const int SPRITE_SIZE=4;
@@ -163,7 +163,7 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent = new Sprite();
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
-    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
+    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Pictures/bg.png");
 
         //m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
@@ -223,7 +223,7 @@ void Window::start(SDL_Window *win) {
     CollisionManager::addCollision(m_EnemyCollision);
     
     // Add game camera
-    m_Camera = new Camera({0, 0, m_iScreenWidth, m_iScreenHeight});
+    m_Camera = new Camera({0, 0, 640, 480});
     
 }
 
@@ -239,7 +239,7 @@ double Window::update(SDL_Window *win)
         
         std::vector<Entity> entityList = EntityManager::getAllEntities();
         
-        for (std::vector<Entity>::iterator it = entityList.begin(); it != entityList.end(); ++it) {
+        /*for (std::vector<Entity>::iterator it = entityList.begin(); it != entityList.end(); ++it) {
             Entity *eachEntity = &*it;
             std::vector<Component*> components = eachEntity->getAllComponents();
             
@@ -252,37 +252,8 @@ double Window::update(SDL_Window *win)
                 }
                 c->update(deltaTime, eachEntity->transform);
             }
-        }
-        
-        // Camera
-        //        Sprite *characterSprite = (Sprite*) m_Player->getComponent("Sprite_Component");
-        //        if (characterSprite) {
-        //            m_Camera->setX((m_Player->transform->m_tPosition.x + characterSprite->frame().w / 2) - m_iScreenWidth / 2);
-        //            m_Camera->setY((m_Player->transform->m_tPosition.y + characterSprite->frame().h / 2) - m_iScreenHeight / 2);
-        //        }
-        
-        //        //Keep the camera in bounds
-        //        if(m_Camera->x() < 0 )
-        //        {
-        //            m_Camera->setX(0);
-        //        }
-        //        if(m_Camera->y() < 0 )
-        //        {
-        //            m_Camera->setY(0);
-        //        }
-        //        if(m_Camera->x() > MAP_WIDTH - m_Camera->rect().w)
-        //        {
-        //            m_Camera->setX(MAP_WIDTH - m_Camera->rect().w);
-        //        }
-        //        if(m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h)
-        //        {
-        //            m_Camera->setY(MAP_HEIGHT - m_Camera->rect().h);
-        //        }
-        
-        m_sBackgroundSpriteComponent->setFrame(m_Camera->rect());
-        SDL_Point tempPoint = {m_Camera->rect().x, m_Camera->rect().y};
-        m_eBackground->transform->setPosition(tempPoint);
-        
+        }*/
+
         while (SDL_PollEvent(&m_Event)) {
             
             m_Player->setInput(m_Event);
@@ -386,37 +357,28 @@ double Window::update(SDL_Window *win)
                     }
                     break;
                 }
-                //default:
-                  //  break;
             }
         }
 
         if(col->didCollide() && right && xVelR>0)
         {
             xVelR=0;
-            std::cerr<<"RIght\n";
         }
         if(col->didCollide() && left && xVelL<0)
         {
             xVelL=0;
-            std::cerr<<"Left\n";
         }
         if(col->didCollide() && down && yVelD>0)
         {
             yVelD=0;
-            std::cerr<<"Down\n";
         }
         if(col->didCollide() && up && yVelU<0)
         {
             yVelU=0;
-            std::cerr<<"Up\n";
         }
         m_Player->transform->m_tPosition.x += (xVelL+xVelR);
         m_Player->transform->m_tPosition.y += (yVelD+yVelU);
 
-       // m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 20, 20});
-       // m_PlayerCollision->setRect({m_Player->transform->rect().x - 5, m_Player->transform->rect().y - 5,
-         //                          m_Player->transform->rect().w + 5, m_Player->transform->rect().h + 5});
        if ((xVelL+xVelR) !=0) {
             m_Player->transform->m_tPosition.x += (xVelL+xVelR);
             Sprite *spriteTemp = (Sprite*) m_Player->getComponent("Sprite_Component");
@@ -424,12 +386,44 @@ double Window::update(SDL_Window *win)
                 spriteTemp->setFlip(false);
             }
             else {
+                //m_Player->setFlip(true);
                 spriteTemp->setFlip(true);
             }
         }
         if ((yVelU+yVelD) != 0) {
             m_Player->transform->m_tPosition.y += yVelU+yVelD;
         }
+
+        m_Camera->setX((m_Player->transform->rect().x + m_Player->transform->rect().w/ 2 ) - 320);
+        m_Camera->setY((m_Player->transform->rect().y + m_Player->transform->rect().h / 2 ) - 240);
+
+        //Keep the camera in bounds
+        if( m_Camera->x() < 0 )
+        {
+            m_Camera->setX(0);
+        }
+        if( m_Camera->y() < 0 )
+        {
+            m_Camera->setY(0);
+        }
+        if( m_Camera->x() > MAP_WIDTH - m_Camera->rect().w )
+        {
+            m_Camera->setX(MAP_WIDTH-m_Camera->rect().w);
+        }
+        if( m_Camera->y() > MAP_HEIGHT - m_Camera->rect().h )
+        {
+            m_Camera->setY(MAP_HEIGHT-m_Camera->rect().h);
+        }
+        SDL_Rect r=m_Camera->rect();
+        m_eBackground->getComponent("Background_Sprite")->update(deltaTime,m_eBackground->transform,0,0,&r);
+
+        int xoffset=m_Player->transform->m_tPosition.x-m_Camera->x();
+        int yoffset=m_Player->transform->m_tPosition.y-m_Camera->y();
+
+        m_Player->getComponent("Sprite_Component")->update(deltaTime,m_Player->transform,xoffset,yoffset);
+
+        m_Player->getComponent("Animation_Component")->update(deltaTime,m_Player->transform);
+
         
         m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 30, 41});
         m_PlayerCollision->setRect({m_Player->transform->rect().x, m_Player->transform->rect().y,

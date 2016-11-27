@@ -24,6 +24,14 @@ void Component::update(float deltaTime, Transform* transform) {
 
 }
 
+void Component::update(float deltaTime, Transform* transform, int x, int y, SDL_Rect* rect) {
+
+}
+
+void Component::update(float deltaTime, Transform* transform, int x, int y) {
+
+}
+
 void Component::setActive(bool active) {
     m_bActive = active;
 }

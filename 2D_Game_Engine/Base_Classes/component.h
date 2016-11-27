@@ -26,6 +26,8 @@ public:
     void setEntity(Entity *entity);
     bool operator == (Component const& component);
     virtual void update(float deltaTime, Transform* transform);
+    virtual void update(float deltaTime, Transform* transform, int x, int y);
+    virtual void update(float deltaTime, Transform* transform, int x, int y, SDL_Rect* rect);
 };
 
 #endif // COMPONENT_H
