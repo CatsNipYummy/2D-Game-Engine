@@ -24,7 +24,7 @@ class Window
     Animation *m_PlayerAnimationComponent;
 
     Entity *m_eBackground;
-    Entity *m_eBackgroundTiles;
+    //Entity *m_eBackgroundTiles;
 
     Sprite *m_sBackgroundSpriteComponent;
 
