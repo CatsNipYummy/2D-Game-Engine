@@ -24,17 +24,14 @@ Window::Window()
 void Window::loadLevel(std::string levelName)
 {
     std::vector<int> levelPixels;
-    
+    int tileType;
     char ch;
-    std::ifstream levelFile;
-    levelFile.open("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
+    std::ifstream levelFile("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     //levelFile.open("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/level1.txt");
     while(levelFile >> std::skipws >> ch)
     {
         levelPixels.push_back((int)ch-48);
-        
     }
-
     int k=0;
     for(int j = 0;j < height;j++)
     {
@@ -68,8 +65,8 @@ void Window::loadLevel(std::string levelName)
                 case 2:
                     fileName="/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/green.png";
                         break;
-            default:
-                break;
+                default:
+                    break;
             }
             m_sBackgroundTilesSpriteComponent->loadSprite(fileName);
             Collision *m_TilesCollision = new Collision();
@@ -118,8 +115,6 @@ void Window::start(SDL_Window *win) {
     Renderer *r = new Renderer(win);
     m_Renderer = r->getRenderer();
     
-    
-    
     // Background
     m_eBackground = new Entity("Background");
     m_eBackground->transform->setPosition({0,0});
@@ -129,15 +124,13 @@ void Window::start(SDL_Window *win) {
     m_sBackgroundSpriteComponent->setEntity(m_eBackground);
     m_sBackgroundSpriteComponent->setName("Background_Sprite");
     m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/mario-1-1.png");
-
    // m_sBackgroundSpriteComponent->loadSprite("/Users/anil/Game Dev/2D_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
-//    m_sBackgroundSpriteComponent->loadSprite("/home/milind/Desktop/2D_Game_Engine/2D-Game-Engine/2D_Game_Engine/Assets/background.png");
-        //m_sBackgroundSpriteComponent->loadBMPFromString("/home/milind/Pictures/background.bmp");
+
     m_eBackground->addComponent(m_sBackgroundSpriteComponent);
     
     EntityManager::addEntity(m_eBackground);
 
-    Window::loadLevel("level1.txt");
+    //Window::loadLevel("level1.txt");
 
     // Create the player
     m_Player = new Player();
@@ -332,6 +325,8 @@ double Window::update(SDL_Window *win)
 
         if(m_Player->transform->m_tPosition.y<0)
             m_Player->transform->m_tPosition.y=0;
+        if(m_Player->transform->m_tPosition.y>MAP_HEIGHT/2.5)
+            m_Player->transform->m_tPosition.y=MAP_HEIGHT/2.5;
 
         if(col->didCollide() && right && xVelR>0)
         {
@@ -394,9 +389,16 @@ double Window::update(SDL_Window *win)
         int xoffset=m_Player->transform->m_tPosition.x-m_Camera->x();
         int yoffset=m_Player->transform->m_tPosition.y-m_Camera->y();
 
+        m_worldEntity->getComponent("World_Component")->update(deltaTime,m_worldEntity->transform);
+
         m_Player->getComponent("Sprite_Component")->update(deltaTime,m_Player->transform,xoffset,yoffset);
+        //m_Player->getComponent("Sprite_Component")->update(deltaTime,m_Player->transform);
 
         m_Player->getComponent("Animation_Component")->update(deltaTime,m_Player->transform);
+        m_Player->getComponent("Player_Collision")->update(deltaTime,m_Player->transform);
+
+        m_Enemy->getComponent("Enemy_Sprite")->update(deltaTime, m_Enemy->transform);
+        m_Enemy->getComponent("Enemy_Collision")->update(deltaTime,m_Enemy->transform);
 
         
         m_Player->transform->setRect({m_Player->transform->m_tPosition.x, m_Player->transform->m_tPosition.y, 30, 41});

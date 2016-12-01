@@ -18,6 +18,7 @@ public:
     static void addCollision(Collision *collision);
     static std::vector<Collision> &getAllCollisions();
     static void checkCollision(Collision *collision);
+    static bool checkCollision(SDL_Rect a, SDL_Rect b);
 
     enum DIRECTION {
         LEFT,
