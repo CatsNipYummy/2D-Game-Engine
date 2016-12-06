@@ -6,3 +6,7 @@ Components currently implemented:
 1. Sprite Component
 2. Transform Component
 3. Collision Component
+4. Animation Component
+5. Physics Component
+6. Enemy AI
+7. Sound Manager
